@@ -2,10 +2,10 @@ package com.example.movie.model
 
 data class MovieDetail(
     val author: String = "",
-    val author_details: AuthorDetails = AuthorDetails(),
+    val author_details: AuthorDetails,
     val content: String = "",
     val created_at: String = "",
-    val id: String = "",
+    val id: Int=0,
     val updated_at: String = "",
     val url: String = ""
 ) {

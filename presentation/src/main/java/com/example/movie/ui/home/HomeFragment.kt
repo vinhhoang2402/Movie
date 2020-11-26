@@ -1,6 +1,7 @@
 package com.example.movie.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,13 +21,18 @@ import com.example.movie.ui.viewmodel.MovieViewModelFactory
 class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
-    val list = mutableListOf<MovieData>()
+    private val list = mutableListOf<MovieData>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val movieViewModelFactory = MovieViewModelFactory(requireContext())
         movieViewModel = ViewModelProvider(requireActivity(), movieViewModelFactory)
             .get(MovieViewModel::class.java)
+    }
+
+    private val onClick: (MovieData) -> Unit = {
+        val bundle = bundleOf("movie" to it)
+        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
     private fun initControls() {
@@ -36,16 +42,10 @@ class HomeFragment : Fragment() {
         binding.rvMovie.adapter = adapter
         binding.isLoading = true
         movieViewModel.movie.observe(requireActivity(), Observer {
-            list.addAll(it.movies)
             binding.isLoading = false
+            list.addAll(it.movies)
             adapter.set(it.movies)
         })
-    }
-
-    private val onClick: (MovieData) -> Unit = {
-        val bundle = bundleOf("movie" to it)
-//        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
-        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
     override fun onCreateView(
@@ -64,41 +64,44 @@ class HomeFragment : Fragment() {
     }
 
     private fun searchMovie() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (query.isNullOrEmpty()) {
-                    showSearchData(mutableListOf())
-                } else {
-                    showSearchData(getListDataSearch(query))
+        binding.searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if (query.isNullOrEmpty()) {
+                        showSearchData(list)
+                    } else {
+                        showSearchData(getListDataSearch(query))
+                    }
+                    return true
                 }
-                return true
-            }
 
-            override fun onQueryTextChange(query: String?): Boolean {
-                if (query.isNullOrEmpty()) {
-                    showSearchData(mutableListOf())
-                } else {
-                    showSearchData(getListDataSearch(query))
+                override fun onQueryTextChange(query: String?): Boolean {
+                    if (query.isNullOrEmpty()) {
+                        showSearchData(list)
+                    } else {
+                        showSearchData(getListDataSearch(query))
+                    }
+                    return true
                 }
-                return true
+            })
+            setOnClickListener {
+                isIconified = false
             }
-        })
+        }
     }
 
     private fun showSearchData(listDataSearch: MutableList<MovieData>) {
-        //val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
-        list.clear()
-        if (listDataSearch.isNotEmpty()) {
-            list.addAll(listDataSearch)
-        }
-        //adapter.set(list)
+        val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
+        binding.rvMovie.adapter = adapter
+        adapter.set(listDataSearch)
     }
 
     private fun getListDataSearch(query: String): MutableList<MovieData> {
+
         val listFilter = list.filter {
             it.title.contains(query, true)
         }
+        Log.d("vvv", listFilter.toString())
         return listFilter.toMutableList()
     }
-
 }

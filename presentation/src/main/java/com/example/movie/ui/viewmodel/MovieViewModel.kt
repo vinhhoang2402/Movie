@@ -20,6 +20,7 @@ class MovieViewModel(
 
     private val movieDetailResponse = MutableLiveData<MovieDetailResponseData>()
     val movieDetail: LiveData<MovieDetailResponseData> = movieDetailResponse
+
     fun getMovie() {
         composite.add(
             movieUseCase()

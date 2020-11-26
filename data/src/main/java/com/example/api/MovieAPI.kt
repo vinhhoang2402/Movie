@@ -23,5 +23,4 @@ interface MovieAPI {
         @Query("language") language: String,
         @Query("page") page: Int
     ):Single<MovieDetailResponseData>
-
 }

@@ -12,6 +12,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:paddingTop="20dp"
+        android:id="@+id/ct_home"
         android:background="@color/Black"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,18 +56,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/see_all"
-            android:textStyle="normal"
-            android:textSize="14sp"
-            android:textColor="@color/White"
-            app:layout_constraintTop_toBottomOf="@id/search_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:text="SEE ALL"
-            android:layout_margin="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
         <androidx.recyclerview.widget.RecyclerView
             android:layout_margin="10dp"
             tools:listitem="@layout/item_movie"
@@ -79,10 +68,12 @@
             android:layout_width="match_parent"
             android:layout_height="0dp" />
         <ProgressBar
+            android:indeterminateTint="@color/Aqua"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 

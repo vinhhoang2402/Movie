@@ -4,7 +4,7 @@
     <string name="title">The SpongeBob Movie: Sponge on the Run</string>
 
     <string name="hello_blank_fragment">Hello detail fragment</string>
-    <string name="dess">Tóm tắt phim</string>
+    <string name="reviews">Review</string>
     <string name="time">1h 59min</string>
     <string name="review">189 Review</string>
 </resources>

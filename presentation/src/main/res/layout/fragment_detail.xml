@@ -7,6 +7,9 @@
         <variable
             name="isLoading"
             type="Boolean" />
+        <variable
+            name="content"
+            type="String" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,10 +18,12 @@
         android:layout_height="match_parent"
         tools:context=".ui.detail.DetailFragment">
         <ProgressBar
+            android:indeterminateTint="@color/Aqua"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE, default=gone}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
         <ImageView
@@ -60,22 +65,27 @@
             android:textColor="@color/White"
             android:textSize="20sp"
             android:text="Dunkirk"
+            android:singleLine="true"
+            android:ellipsize="marquee"
             android:layout_marginBottom="80dp"
+            android:layout_marginEnd="40dp"
             app:layout_constraintBottom_toBottomOf="@id/poster"
             app:layout_constraintStart_toStartOf="@id/poster"
+            app:layout_constraintEnd_toStartOf="@id/year"
             android:layout_marginStart="20dp"
             android:id="@+id/name_movie"
             android:textStyle="bold"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"/>
         <TextView
+            app:layout_constraintEnd_toEndOf="parent"
             android:textColor="@color/White"
             android:textSize="14sp"
             android:text="(2017)"
-            app:layout_constraintTop_toTopOf="@id/name_movie"
+            android:layout_marginEnd="20dp"
             app:layout_constraintStart_toEndOf="@id/name_movie"
+            app:layout_constraintTop_toTopOf="@id/name_movie"
             app:layout_constraintBottom_toBottomOf="@id/name_movie"
-            android:layout_marginStart="20dp"
             android:id="@+id/year"
             android:textStyle="bold"
             android:layout_width="wrap_content"
@@ -146,27 +156,32 @@
             android:layout_height="32dp"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="@string/dess"
+            android:text="@string/reviews"
             android:textColor="@color/White"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/poster" />
-
-        <TextView
-            android:id="@+id/des"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_margin="10dp"
-            android:scrollbars="vertical"
-            android:textColor="@color/White"
-            android:textSize="14sp"
+        <ScrollView
+            android:paddingBottom="20dp"
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dess"
-            app:layout_constraintVertical_bias="0.0" />
-
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <TextView
+                android:id="@+id/des"
+                android:text="@{content}"
+                android:lineSpacingExtra="2dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="vertical"
+                android:textColor="@color/White"
+                android:textSize="16sp"
+                />
+        </ScrollView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -1,16 +1,13 @@
 package com.example.movie.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.movie.R
-import com.example.movie.model.MovieData
-import com.example.movie.ui.home.MovieAdapter
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var movieViewModel: MovieViewModel

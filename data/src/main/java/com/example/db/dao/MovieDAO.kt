@@ -10,7 +10,7 @@ import com.example.data.MovieDetailData
 @Dao
 interface MovieDAO {
     @Insert
-    fun insertMovie(movieData:MovieData):Long
+    fun saveMovie(movieData:MovieData): Long
 
     @Query("SELECT * FROM MovieTable")
     fun getMovie(): List<MovieData>
