@@ -12,16 +12,17 @@ class MovieRepositoryImp(
     private val localMovieDataResource: LocalMovieDataResource,
     private val remoteMovieDataResource: RemoteMovieDataResource
 ) : MovieRepository {
-    private fun remoteDaaResource() = remoteMovieDataResource.getMovie().doOnSuccess {
-        //Log.d("aaaaaaaaaaaa", it.toString())
+    private fun remoteDataResource() = remoteMovieDataResource.getMovie().doOnSuccess {
+        Log.d("aaaaaaaaaaaa", it.toString())
         saveMovieLocal(it)
     }
 
     private fun saveMovieLocal(movieResponseEntity: MovieResponseEntity) = localMovieDataResource
         .saveMovieLocalData(movieResponseEntity)
 
+
     override fun getMovie(): Single<MovieResponseEntity> {
-        return remoteDaaResource()
+        return Single.concat(remoteDataResource(),localMovieDataResource.getMovieLocalData()).firstOrError()
     }
 
     private fun remoteDetailDataResource(id: Int) = remoteMovieDataResource.getMovieDetail(id).doOnSuccess {
@@ -32,7 +33,8 @@ class MovieRepositoryImp(
         .saveMovieDetailLocalData(movieDetailResponseEntity)
 
     override fun getMovieDetail(id: Int): Single<MovieDetailResponseEntity> {
-        return remoteDetailDataResource(id)
+        //return remoteDetailDataResource(id)
+        return localMovieDataResource.getMovieDetailLocalData(id.toLong())
     }
 
 }

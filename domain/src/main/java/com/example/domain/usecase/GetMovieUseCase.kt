@@ -5,6 +5,7 @@ import com.example.domain.entity.MovieResponseEntity
 import com.example.domain.repository.MovieRepository
 import io.reactivex.Scheduler
 import io.reactivex.Single
+import sun.rmi.runtime.Log
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -14,6 +15,7 @@ class GetMovieUseCase(
     executorThread: Scheduler
 ) : SingleUseCase<MovieResponseEntity>(uiThread, executorThread) {
     override fun create(): Single<MovieResponseEntity> {
+       print("aaaaaaaaaaaa GetMovieUseCase")
         return movieRepository.getMovie().timeout(3, TimeUnit.SECONDS).retry { times, throwable ->
             times < 5 && throwable is TimeoutException
         }

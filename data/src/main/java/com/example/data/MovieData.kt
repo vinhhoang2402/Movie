@@ -7,8 +7,12 @@ import io.reactivex.annotations.NonNull
 @Entity(tableName = "MovieTable")
 data class MovieData(
     @PrimaryKey
-    val id: Int=0,
-    val title: String,
-    val backdrop_path: String,
-    val overview: String
-)
+    val id: Long = 0L,
+    var title: String,
+    var backdrop_path: String,
+    var overview: String
+) {
+    override fun toString(): String {
+        return "--- id: $id, title: $title, backdrop_path: $backdrop_path, overview: $overview"
+    }
+}

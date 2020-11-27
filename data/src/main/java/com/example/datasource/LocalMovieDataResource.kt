@@ -8,5 +8,5 @@ interface LocalMovieDataResource {
     fun getMovieLocalData(): Single<MovieResponseEntity>
 
     fun saveMovieDetailLocalData(movieDetailResponseEntity: MovieDetailResponseEntity)
-    fun getMovieDetailLocalData(): Single<MovieDetailResponseEntity>
+    fun getMovieDetailLocalData(movieId: Long): Single<MovieDetailResponseEntity>
 }

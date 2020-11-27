@@ -10,7 +10,7 @@ import com.example.domain.entity.MovieEntity
 import com.example.domain.entity.MovieResponseEntity
 
 //remote
-fun MovieData.toMovieEntity() = MovieEntity(this.id, this.title, this.backdrop_path, this.overview)
+fun MovieData.toMovieEntity() = MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview)
 fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
     it.toMovieEntity()
 }.toMutableList())
@@ -22,22 +22,24 @@ fun MovieDetailData.AuthorDetails.toAuthorDetails() = MovieDetailEntity.AuthorDe
 )
 
 fun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(
-    this.id,this.author,this.author_details.toAuthorDetails(),this.content,this.created_at,this.updated_at,this.url
+    this.id,this.author,this.author_details?.toAuthorDetails(),this.content,this.created_at,this.updated_at,this.url
 )
 
+
 fun MovieDetailResponseData.toMovieDetailResponseEntity() =
-    MovieDetailResponseEntity(this.results.map {
+    MovieDetailResponseEntity(this.id, this.results.map {
         it.toMovieDetailEntity()
     }.toMutableList())
 //local
 fun MovieEntity.toMovieData() = MovieData(this.id, this.title, this.backdrop_path, this.overview)
-
 //movieDetail
 fun MovieDetailEntity.AuthorDetails.toAuthorDetails() = MovieDetailData.AuthorDetails(
     this.name,this.username,this.avatar_path,this.rating
 )
 
-fun MovieDetailEntity.toMovieDetailData() = MovieDetailData(
-    this.id,this.author,this.author_details.toAuthorDetails(),this.content,this.created_at,this.updated_at,this.url
+fun MovieDetailEntity.toMovieDetailData(movieId: Long) = MovieDetailData(
+    this.id, movieId, this.author,this.author_details?.toAuthorDetails(),this.content,this.created_at,this.updated_at,this.url
 )
+
+
 

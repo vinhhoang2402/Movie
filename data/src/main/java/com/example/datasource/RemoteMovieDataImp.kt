@@ -1,5 +1,6 @@
 package com.example.datasource
 
+import android.util.Log
 import com.example.api.MovieAPI
 import com.example.common.DataConstants
 import com.example.domain.entity.MovieDetailEntity
@@ -20,6 +21,7 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
     override fun getMovieDetail(idMovie: Int): Single<MovieDetailResponseEntity> {
         return movieAPI.getMovieDetail(idMovie,DataConstants.API_KEY,DataConstants.LANGUAGE,DataConstants.PAGE)
             .map {
+                Log.d("ddddddd",it.toMovieDetailResponseEntity().toString())
                 it.toMovieDetailResponseEntity()
             }
     }

@@ -3,9 +3,9 @@ package com.example.movie.model
 data class MovieDetail(
     val author: String = "",
     val author_details: AuthorDetails,
-    val content: String = "",
+    val content: String,
     val created_at: String = "",
-    val id: Int=0,
+    val id: String = "",
     val updated_at: String = "",
     val url: String = ""
 ) {

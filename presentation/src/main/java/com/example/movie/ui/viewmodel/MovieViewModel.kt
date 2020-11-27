@@ -32,7 +32,7 @@ class MovieViewModel(
                 }
                 .subscribe({
                     Log.d("aaaaaa",it.toString())
-                    movieResponse.value = MovieDataResponseMapper().map(it)
+                    movieResponse.postValue( MovieDataResponseMapper().map(it))
                 }, {
                     Log.d("errorrrrrrrrrrrr", "error: ${it.message}")
                     showMessage(it.toString())
@@ -50,7 +50,7 @@ class MovieViewModel(
                     showLoading(false)
                 }
                 .subscribe({
-                    movieDetailResponse.value = it?.toMovieDetailResponseData()
+                    movieDetailResponse.postValue( it?.toMovieDetailResponseData())
                 }, {
                     showMessage(it.toString())
                 })

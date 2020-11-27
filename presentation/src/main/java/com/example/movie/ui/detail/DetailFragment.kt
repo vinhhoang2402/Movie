@@ -27,7 +27,7 @@ class DetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val movieViewModelFactory = MovieViewModelFactory(requireContext())
-        movieViewModel = ViewModelProvider(requireActivity(), movieViewModelFactory)
+        movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
     }
 
@@ -43,10 +43,11 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getSerializable("movie") as MovieData
         Log.d("vvv", movie.id.toString())
-        movieViewModel.getMovieDetail(movie.id)
+        movieViewModel.getMovieDetail(movie.id.toInt())
         binding.isLoading = true
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
             if (it.movieDetails.size > 0) {
+                Log.d("aaaaa",it.toString())
                 val year = it.movieDetails[0].created_at
                 val newYear = year.substring(0, 4)
                 val formatter = SimpleDateFormat("yyyy", Locale.getDefault())

@@ -1,11 +1,13 @@
 package com.example.datasource
 
+import android.util.Log
 import com.example.db.MovieDatabase
 import com.example.domain.entity.MovieDetailResponseEntity
 import com.example.domain.entity.MovieResponseEntity
 import com.example.mapper.toMovieData
 import com.example.mapper.toMovieDetailData
 import com.example.mapper.toMovieDetailEntity
+
 import com.example.mapper.toMovieEntity
 import io.reactivex.Single
 
@@ -13,9 +15,10 @@ class LocalDataMovieImp(
     database: MovieDatabase
 ) : LocalMovieDataResource {
     private val dao = database.getMovieDAO()
-    private val daoDetail=database.getMovieDetail()
+    private val daoDetail = database.getMovieDetailDAO()
     override fun saveMovieLocalData(movieResponseEntity: MovieResponseEntity) {
         movieResponseEntity.results.map {
+            Log.d("dataLocal", it.toMovieData().toString())
             dao.saveMovie(it.toMovieData())
         }
     }
@@ -23,22 +26,24 @@ class LocalDataMovieImp(
     override fun getMovieLocalData(): Single<MovieResponseEntity> {
         return Single.just(
             MovieResponseEntity(dao.getMovie().map {
+                Log.d("vvvvMovie", it.toMovieEntity().toString())
                 it.toMovieEntity()
             }.toMutableList())
         )
     }
 
     override fun saveMovieDetailLocalData(movieDetailResponseEntity: MovieDetailResponseEntity) {
-        movieDetailResponseEntity.results.map {
-            daoDetail.saveMovieDetail(it.toMovieDetailData())
+        val movieId = movieDetailResponseEntity.id
+        movieDetailResponseEntity.results.forEach {
+            Log.d("vvvvSaveDetail", daoDetail.saveMovieDetail(it.toMovieDetailData(movieId)).toString())
+            daoDetail.saveMovieDetail(it.toMovieDetailData(movieId))
         }
     }
 
-    override fun getMovieDetailLocalData(): Single<MovieDetailResponseEntity> {
-        return  Single.just(
-            MovieDetailResponseEntity(daoDetail.getMovieDetail().map {
-                it.toMovieDetailEntity()
-            }.toMutableList())
+    override fun getMovieDetailLocalData(movieId: Long): Single<MovieDetailResponseEntity> {
+        return Single.just(
+            MovieDetailResponseEntity(movieId, daoDetail.getMovieDetail(movieId).map {
+                it.toMovieDetailEntity()}.toMutableList())
         )
     }
 }
