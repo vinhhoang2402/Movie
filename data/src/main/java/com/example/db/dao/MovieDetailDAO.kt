@@ -9,7 +9,7 @@ import com.example.data.MovieDetailData
 @Dao
 interface MovieDetailDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveMovieDetail(movieDataDetail: MovieDetailData):Long
+    fun saveMovieDetail(movieDataDetail: MovieDetailData): Long
 
     @Query("SELECT * FROM MovieDetail where movieId=:movieId")
     fun getMovieDetail(movieId: Long): List<MovieDetailData>

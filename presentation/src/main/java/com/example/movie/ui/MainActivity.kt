@@ -1,7 +1,9 @@
 package com.example.movie.ui
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.Navigation
 import com.example.movie.R
@@ -17,14 +19,14 @@ class MainActivity : AppCompatActivity() {
         val movieViewModelFactory = MovieViewModelFactory(this)
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
-        observe()
-    }
-
-    private fun observe() {
+        movieViewModel.status.observe(this, Observer {
+            Toast.makeText(this, "connect $it", Toast.LENGTH_SHORT).show()
+        })
         movieViewModel.getMovie()
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return Navigation.findNavController(this, R.id.nav_graph).navigateUp()
     }
+
 }

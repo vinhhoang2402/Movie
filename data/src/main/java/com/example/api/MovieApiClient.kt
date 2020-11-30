@@ -8,11 +8,11 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 
 class MovieApiClient {
-    companion object{
-        private const val URL= "https://api.themoviedb.org/3/movie/"
-        private val apiInterface: MovieAPI?=null
-        fun getMovieService(): MovieAPI{
-            if (apiInterface!=null){
+    companion object {
+        private const val URL = "https://api.themoviedb.org/3/movie/"
+        private val apiInterface: MovieAPI? = null
+        fun getMovieService(): MovieAPI {
+            if (apiInterface != null) {
                 return apiInterface
             }
 

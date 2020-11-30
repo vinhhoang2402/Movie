@@ -1,6 +1,7 @@
 package com.example.datasource
 
-import com.example.domain.entity.*
+import com.example.domain.entity.MovieDetailResponseEntity
+import com.example.domain.entity.MovieResponseEntity
 import io.reactivex.Single
 
 interface LocalMovieDataResource {

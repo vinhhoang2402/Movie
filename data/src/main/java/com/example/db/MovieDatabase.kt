@@ -10,17 +10,18 @@ import com.example.data.MovieDetailData
 import com.example.db.dao.MovieDAO
 import com.example.db.dao.MovieDetailDAO
 
-@Database(entities = [MovieData::class, MovieDetailData::class], version=2,exportSchema = false)
+@Database(entities = [MovieData::class, MovieDetailData::class], version = 2, exportSchema = false)
 @TypeConverters(MovieDetailData.MovieDetailTypeConverter::class)
-abstract class MovieDatabase :RoomDatabase() {
-    abstract fun getMovieDAO() : MovieDAO
+abstract class MovieDatabase : RoomDatabase() {
+    abstract fun getMovieDAO(): MovieDAO
     abstract fun getMovieDetailDAO(): MovieDetailDAO
-    companion object{
-        private var  instance: MovieDatabase?=null
-        fun getInstance(context : Context): MovieDatabase{
-            synchronized(this){
-                if (instance==null){
-                    instance= Room.databaseBuilder(
+
+    companion object {
+        private var instance: MovieDatabase? = null
+        fun getInstance(context: Context): MovieDatabase {
+            synchronized(this) {
+                if (instance == null) {
+                    instance = Room.databaseBuilder(
                         context.applicationContext,
                         MovieDatabase::class.java,
                         MovieDatabase::class.java.name

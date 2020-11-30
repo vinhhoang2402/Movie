@@ -12,14 +12,15 @@ import com.example.movie.model.MovieData
 
 class MovieAdapter(
     private val context: Context,
-    private val onClick:(MovieData)->Unit
+    private val onClick: (MovieData) -> Unit
 ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(
 ) {
     private var movieList: List<MovieData> = listOf()
-    inner class MovieViewHolder(private val movieBinding: ItemMovieBinding):
-    RecyclerView.ViewHolder(movieBinding.root){
-        fun onBind(movie: MovieData){
-            movieBinding.movie=movie
+
+    inner class MovieViewHolder(private val movieBinding: ItemMovieBinding) :
+        RecyclerView.ViewHolder(movieBinding.root) {
+        fun onBind(movie: MovieData) {
+            movieBinding.movie = movie
             Log.d("aaaaaaaaaa", movie.toString())
             Glide.with(context).load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
                 .into(movieBinding.image)
@@ -30,8 +31,8 @@ class MovieAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        val inflater=LayoutInflater.from(parent.context)
-        val itemMovieBinding:ItemMovieBinding=ItemMovieBinding.inflate(inflater,parent,false)
+        val inflater = LayoutInflater.from(parent.context)
+        val itemMovieBinding: ItemMovieBinding = ItemMovieBinding.inflate(inflater, parent, false)
         return MovieViewHolder(itemMovieBinding)
     }
 
@@ -40,8 +41,9 @@ class MovieAdapter(
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.onBind(movieList[position])
     }
-    fun set(movie: List<MovieData>){
-        this.movieList=movie
+
+    fun set(movie: List<MovieData>) {
+        this.movieList = movie
         notifyDataSetChanged()
     }
 }

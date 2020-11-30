@@ -11,27 +11,27 @@ import java.lang.reflect.Type
 
 @Entity(tableName = "MovieDetail")
 data class MovieDetailData(
-    var id: String="",
+    var id: String = "",
     var movieId: Long = 0,
-    var author: String="",
+    var author: String = "",
     var author_details: AuthorDetails?,
-    var content: String="",
-    var created_at: String="",
-    var updated_at: String="",
-    var url: String=""
-): Serializable {
+    var content: String = "",
+    var created_at: String = "",
+    var updated_at: String = "",
+    var url: String = ""
+) : Serializable {
 
-    @PrimaryKey( autoGenerate = true)
-    var localId: Long=0L
+    @PrimaryKey(autoGenerate = true)
+    var localId: Long = 0L
 
     data class AuthorDetails(
-        var name: String="",
-        var username: String="",
+        var name: String = "",
+        var username: String = "",
         var avatar_path: String = "",
-        var rating: Int=0
-    ):Serializable
+        var rating: Int = 0
+    ) : Serializable
 
-    object MovieDetailTypeConverter: Serializable {
+    object MovieDetailTypeConverter : Serializable {
         @TypeConverter
         @JvmStatic
         fun fromMovieDetailList(movieDetail: AuthorDetails?): String? {

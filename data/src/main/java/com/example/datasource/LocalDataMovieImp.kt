@@ -35,7 +35,10 @@ class LocalDataMovieImp(
     override fun saveMovieDetailLocalData(movieDetailResponseEntity: MovieDetailResponseEntity) {
         val movieId = movieDetailResponseEntity.id
         movieDetailResponseEntity.results.forEach {
-            Log.d("vvvvSaveDetail", daoDetail.saveMovieDetail(it.toMovieDetailData(movieId)).toString())
+            Log.d(
+                "vvvvSaveDetail",
+                daoDetail.saveMovieDetail(it.toMovieDetailData(movieId)).toString()
+            )
             daoDetail.saveMovieDetail(it.toMovieDetailData(movieId))
         }
     }
@@ -43,7 +46,8 @@ class LocalDataMovieImp(
     override fun getMovieDetailLocalData(movieId: Long): Single<MovieDetailResponseEntity> {
         return Single.just(
             MovieDetailResponseEntity(movieId, daoDetail.getMovieDetail(movieId).map {
-                it.toMovieDetailEntity()}.toMutableList())
+                it.toMovieDetailEntity()
+            }.toMutableList())
         )
     }
 }

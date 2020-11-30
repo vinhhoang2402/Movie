@@ -1,10 +1,11 @@
 package com.example.movie.ui.detail
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -13,6 +14,7 @@ import com.bumptech.glide.Glide
 import com.example.common.DataConstants
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.model.MovieData
+import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
 import java.text.SimpleDateFormat
@@ -42,29 +44,48 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getSerializable("movie") as MovieData
-        Log.d("vvv", movie.id.toString())
         movieViewModel.getMovieDetail(movie.id.toInt())
         binding.isLoading = true
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
             if (it.movieDetails.size > 0) {
-                Log.d("aaaaa",it.toString())
-                val year = it.movieDetails[0].created_at
-                val newYear = year.substring(0, 4)
-                val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
-                val date = formatter.parse(newYear)
-                val formattedYear = formatter.format(date)
-                binding.isLoading = false
-                binding.content = it.movieDetails[0].content
-                binding.year.text = formattedYear
-                binding.nameMovie.text = movie.title
-                binding.nameMovie.isSelected = true
-                Glide.with(requireActivity())
-                    .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
-                    .into(binding.poster)
+                bind(it, movie)
+            } else {
+                binding.ctDetail.visibility = View.GONE
+                showDialog()
             }
         })
         binding.back.setOnClickListener {
             findNavController().navigateUp()
+        }
+    }
+
+    private fun bind(it: MovieDetailResponseData, movie: MovieData) {
+        binding.isLoading = false
+        binding.content = it.movieDetails[0].content
+        binding.year.text = formatYear(it.movieDetails[0].created_at)
+        binding.nameMovie.text = movie.title
+        binding.nameMovie.isSelected = true
+        Glide.with(requireActivity())
+            .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
+            .into(binding.poster)
+    }
+
+    private fun formatYear(year: String): String {
+        val newYear = year.substring(0, 4)
+        val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
+        val date = formatter.parse(newYear)
+        return formatter.format(date)
+    }
+
+    private fun showDialog() {
+        val builder = AlertDialog.Builder(requireContext())
+        with(builder)
+        {
+            setTitle("Alert !")
+            setMessage("Please connect Wifi")
+            setPositiveButton("OK", null)
+            setNegativeButton("CANCEL", null)
+            show()
         }
     }
 }

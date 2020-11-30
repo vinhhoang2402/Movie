@@ -6,7 +6,6 @@ import io.reactivex.Single
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-import retrofit2.http.Url
 
 interface MovieAPI {
     @GET("popular")
@@ -14,7 +13,7 @@ interface MovieAPI {
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ):Single<MovieResponseData>
+    ): Single<MovieResponseData>
 
     @GET("{id_movie}/reviews")
     fun getMovieDetail(
@@ -22,5 +21,5 @@ interface MovieAPI {
         @Query("api_key") apiKey: String,
         @Query("language") language: String,
         @Query("page") page: Int
-    ):Single<MovieDetailResponseData>
+    ): Single<MovieDetailResponseData>
 }

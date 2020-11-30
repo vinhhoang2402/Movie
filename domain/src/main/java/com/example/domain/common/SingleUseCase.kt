@@ -7,8 +7,7 @@ abstract class SingleUseCase<T>(
     private val uiThread: Scheduler,
     private val executorThread: Scheduler
 ) {
-
-    operator fun invoke():Single<T>{
+    operator fun invoke(): Single<T> {
         return create().subscribeOn(executorThread).observeOn(uiThread)
     }
 

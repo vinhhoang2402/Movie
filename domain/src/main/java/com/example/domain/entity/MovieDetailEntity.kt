@@ -1,9 +1,7 @@
 package com.example.domain.entity
 
-import androidx.room.Embedded
-
 data class MovieDetailEntity(
-    val id: String="",
+    val id: String = "",
     val author: String,
     val author_details: AuthorDetails?,
     val content: String,

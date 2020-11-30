@@ -4,17 +4,16 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import io.reactivex.disposables.CompositeDisposable
 
-open class BaseViewModel :  ViewModel(), Event {
-    val eventLoading = MutableLiveData<Boolean>()
-    val eventMessage = MutableLiveData<String>()
-    val composite= CompositeDisposable()
-
-    override fun showMessage(message: String) {
-        eventMessage.value=message
+open class BaseViewModel : ViewModel() {
+    val eventLoading = MutableLiveData<Event<Boolean>>()
+    val eventMessage = MutableLiveData<Event<String>>()
+    val composite = CompositeDisposable()
+    fun showLoading(value: Boolean) {
+        eventLoading.value = Event(value)
     }
 
-    override fun showLoading(loading: Boolean) {
-        eventLoading.value=loading
+    fun showMessage(message: String) {
+        eventMessage.value = Event(message)
     }
 
     override fun onCleared() {

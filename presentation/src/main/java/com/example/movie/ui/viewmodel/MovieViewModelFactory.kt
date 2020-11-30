@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.movie.di.Injector
 
-class MovieViewModelFactory(private val context: Context):ViewModelProvider.NewInstanceFactory() {
+class MovieViewModelFactory(private val context: Context) : ViewModelProvider.NewInstanceFactory() {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        if (modelClass.isAssignableFrom(MovieViewModel::class.java)){
+        if (modelClass.isAssignableFrom(MovieViewModel::class.java)) {
             return MovieViewModel(
+                Injector.getMovieConnectUseCase(context),
                 Injector.getMovieUseCase(context),
                 Injector.getMovieDetailUseCase(context)
             ) as T

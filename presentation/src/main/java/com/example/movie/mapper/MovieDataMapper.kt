@@ -5,6 +5,6 @@ import com.example.movie.model.MovieData
 
 class MovieDataMapper : Mapper<MovieEntity, MovieData> {
     override fun map(from: MovieEntity): MovieData {
-        return MovieData(from.id, from.title, from.backdrop_path,from.overview)
+        return MovieData(from.id, from.title, from.backdrop_path, from.overview)
     }
 }
