@@ -1,6 +1,10 @@
 package com.example.movie.ui
 
+import android.content.pm.ActivityInfo
+import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -9,6 +13,7 @@ import androidx.navigation.Navigation
 import com.example.movie.R
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+import kotlinx.android.synthetic.main.fragment_detail.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -19,9 +24,6 @@ class MainActivity : AppCompatActivity() {
         val movieViewModelFactory = MovieViewModelFactory(this)
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
-        movieViewModel.status.observe(this, Observer {
-            Toast.makeText(this, "connect $it", Toast.LENGTH_SHORT).show()
-        })
         movieViewModel.getMovie()
     }
 

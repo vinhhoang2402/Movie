@@ -38,10 +38,10 @@ data class MovieDetailData(
             if (movieDetail == null) {
                 return null
             }
-            val gson = Gson()
+            val gSon = Gson()
             val type: Type =
                 object : TypeToken<AuthorDetails?>() {}.type
-            return gson.toJson(movieDetail, type)
+            return gSon.toJson(movieDetail, type)
         }
 
         @TypeConverter
@@ -50,10 +50,10 @@ data class MovieDetailData(
             if (movieDetailString == null) {
                 return null
             }
-            val gson = Gson()
+            val gSon = Gson()
             val type =
                 object : TypeToken<AuthorDetails?>() {}.type
-            return gson.fromJson<AuthorDetails>(movieDetailString, type)
+            return gSon.fromJson<AuthorDetails>(movieDetailString, type)
         }
 
     }

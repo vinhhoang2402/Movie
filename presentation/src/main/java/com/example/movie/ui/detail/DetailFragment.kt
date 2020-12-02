@@ -1,5 +1,6 @@
 package com.example.movie.ui.detail
 
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -20,11 +21,10 @@ import com.example.movie.ui.viewmodel.MovieViewModelFactory
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 class DetailFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentDetailBinding
-    private val currentPage = 1
-    private val totalPage = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -82,10 +82,17 @@ class DetailFragment : Fragment() {
         with(builder)
         {
             setTitle("Alert !")
-            setMessage("Please connect Wifi")
-            setPositiveButton("OK", null)
-            setNegativeButton("CANCEL", null)
+            setMessage("404 Not found")
             show()
+        }
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Toast.makeText(context, "hhhhhh", Toast.LENGTH_SHORT).show()
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Toast.makeText(context, "ggggg", Toast.LENGTH_SHORT).show()
         }
     }
 }

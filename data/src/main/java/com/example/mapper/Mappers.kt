@@ -33,7 +33,6 @@ fun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(
     this.url
 )
 
-
 fun MovieDetailResponseData.toMovieDetailResponseEntity() =
     MovieDetailResponseEntity(this.id, this.results.map {
         it.toMovieDetailEntity()

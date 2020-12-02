@@ -5,8 +5,8 @@
         android:width="1dp"
         android:color="#444444"/>
     <gradient
-        android:startColor="@color/White"
-        android:endColor="@android:color/holo_purple"/>
+        android:startColor="@color/Tomato"
+        android:endColor="@android:color/holo_blue_bright"/>
     <corners
         android:radius="4dp"/>
 </shape>

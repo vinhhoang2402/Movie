@@ -21,7 +21,6 @@ class MovieAdapter(
         RecyclerView.ViewHolder(movieBinding.root) {
         fun onBind(movie: MovieData) {
             movieBinding.movie = movie
-            Log.d("aaaaaaaaaa", movie.toString())
             Glide.with(context).load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
                 .into(movieBinding.image)
             movieBinding.ctMovie.setOnClickListener {

@@ -24,7 +24,7 @@ class MovieViewModel(
     val movieDetail: LiveData<MovieDetailResponseData> = movieDetailResponse
 
     private val connectionStatus = MutableLiveData<Boolean>()
-    val status: LiveData<Boolean> = connectionStatus
+    //val status: LiveData<Boolean> = connectionStatus
 
     init {
         composite.add(

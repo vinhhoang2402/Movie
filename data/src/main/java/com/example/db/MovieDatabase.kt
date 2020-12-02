@@ -10,7 +10,7 @@ import com.example.data.MovieDetailData
 import com.example.db.dao.MovieDAO
 import com.example.db.dao.MovieDetailDAO
 
-@Database(entities = [MovieData::class, MovieDetailData::class], version = 2, exportSchema = false)
+@Database(entities = [MovieData::class, MovieDetailData::class], version = 3, exportSchema = false)
 @TypeConverters(MovieDetailData.MovieDetailTypeConverter::class)
 abstract class MovieDatabase : RoomDatabase() {
     abstract fun getMovieDAO(): MovieDAO

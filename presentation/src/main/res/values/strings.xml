@@ -7,4 +7,10 @@
     <string name="reviews">Review</string>
     <string name="time">1h 59min</string>
     <string name="review">189 Review</string>
+    <string name="name_movie">Dunkirk</string>
+    <string name="create_year">(2017)</string>
+    <string name="action">ACTION</string>
+    <string name="drama">DRAMA</string>
+    <string name="history">HISTORY</string>
+    <string name="todo">TODO</string>
 </resources>

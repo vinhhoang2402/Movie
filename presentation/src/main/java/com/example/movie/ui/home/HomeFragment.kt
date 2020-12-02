@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
         val movieViewModelFactory = MovieViewModelFactory(requireContext())
         movieViewModel = ViewModelProvider(requireActivity(), movieViewModelFactory)
             .get(MovieViewModel::class.java)
+        retainInstance = true
     }
 
     private val onClick: (MovieData) -> Unit = {
@@ -44,6 +45,7 @@ class HomeFragment : Fragment() {
         movieViewModel.movie.observe(requireActivity(), Observer {
             Log.d("aaaaa", it.toString())
             binding.isLoading = false
+            list.clear()
             list.addAll(it.movies)
             adapter.set(it.movies)
         })
@@ -98,7 +100,6 @@ class HomeFragment : Fragment() {
     }
 
     private fun getListDataSearch(query: String): MutableList<MovieData> {
-
         val listFilter = list.filter {
             it.title.contains(query, true)
         }
