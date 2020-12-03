@@ -29,6 +29,7 @@ class HomeFragment : Fragment() {
         movieViewModel = ViewModelProvider(requireActivity(), movieViewModelFactory)
             .get(MovieViewModel::class.java)
         retainInstance = true
+        Log.d("viewModelTest2", movieViewModel.toString())
     }
 
     private val onClick: (MovieData) -> Unit = {

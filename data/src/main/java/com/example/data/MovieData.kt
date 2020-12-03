@@ -10,8 +10,4 @@ data class MovieData(
     var title: String,
     var backdrop_path: String,
     var overview: String
-) {
-    override fun toString(): String {
-        return "--- id: $id, title: $title, backdrop_path: $backdrop_path, overview: $overview"
-    }
-}
+)

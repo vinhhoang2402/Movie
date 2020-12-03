@@ -1,6 +1,5 @@
 package com.example.movie.ui.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.usecase.GetConnectionStatusUseCase
@@ -46,10 +45,8 @@ class MovieViewModel(
                     showLoading(false)
                 }
                 .subscribe({
-                    Log.d("aaaaaa", it.toString())
                     movieResponse.postValue(MovieDataResponseMapper().map(it))
                 }, {
-                    Log.d("errorrrrrrrrrrrr", "error: ${it.message}")
                     showMessage(it.toString())
                 })
         )
@@ -67,7 +64,6 @@ class MovieViewModel(
                 }
                 .subscribe({
                     movieDetailResponse.postValue(it?.toMovieDetailResponseData())
-                    Log.d("kkkk", it.results.toString())
                 }, {
                     showMessage(it.toString())
                 })

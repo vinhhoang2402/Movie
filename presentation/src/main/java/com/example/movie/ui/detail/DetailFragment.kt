@@ -1,6 +1,8 @@
 package com.example.movie.ui.detail
 
+import android.content.DialogInterface
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.example.movie.model.MovieData
 import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+import kotlinx.android.synthetic.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -32,6 +35,7 @@ class DetailFragment : Fragment() {
         val movieViewModelFactory = MovieViewModelFactory(requireContext())
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
+        Log.d("viewModelTest3", movieViewModel.toString())
     }
 
     override fun onCreateView(
@@ -46,9 +50,10 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getSerializable("movie") as MovieData
         movieViewModel.getMovieDetail(movie.id.toInt())
+        Log.d("dddd",movie.id.toString())
         binding.isLoading = true
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
-            if (it.movieDetails.size > 0) {
+            if (it.movieDetails.size>0) {
                 bind(it, movie)
             } else {
                 binding.ctDetail.visibility = View.GONE
@@ -85,6 +90,10 @@ class DetailFragment : Fragment() {
         {
             setTitle("Alert !")
             setMessage("404 Not found")
+            builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
+                dialogInterface.dismiss()
+                findNavController().navigateUp()
+            } )
             show()
         }
     }
