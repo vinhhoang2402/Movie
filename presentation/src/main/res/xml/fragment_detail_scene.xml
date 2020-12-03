@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:motion="http://schemas.android.com/tools">
 
-    <ConstraintSet android:id="@+id/start">
-        <Constraint android:id="@+id/poster" />
-    </ConstraintSet>
+<!--    <ConstraintSet android:id="@+id/start">-->
+<!--        <Constraint android:id="@+id/poster" />-->
+<!--    </ConstraintSet>-->
 
-    <ConstraintSet android:id="@+id/end">
-        <Constraint android:id="@id/poster" />
-    </ConstraintSet>
+
 
     <Transition
-        app:constraintSetEnd="@id/end"
-        app:constraintSetStart="@+id/start" />
+        app:duration="1000"
+        app:constraintSetEnd="@layout/fragment_detail_end"
+        app:constraintSetStart="@layout/fragment_detail">
+
+        <OnClick
+            app:targetId="@+id/directional"
+            app:clickAction="toggle"/>
+
+    </Transition>
+
+
 </MotionScene>

@@ -1,18 +1,19 @@
 package com.example.movie.ui.detail
 
-import android.content.res.Configuration
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AlertDialog
+import androidx.constraintlayout.motion.widget.MotionLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.example.common.DataConstants
+import com.example.movie.R
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.model.MovieData
 import com.example.movie.model.MovieDetailResponseData
@@ -57,6 +58,7 @@ class DetailFragment : Fragment() {
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
+
     }
 
     private fun bind(it: MovieDetailResponseData, movie: MovieData) {
@@ -84,15 +86,6 @@ class DetailFragment : Fragment() {
             setTitle("Alert !")
             setMessage("404 Not found")
             show()
-        }
-    }
-
-    override fun onConfigurationChanged(newConfig: Configuration) {
-        super.onConfigurationChanged(newConfig)
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(context, "hhhhhh", Toast.LENGTH_SHORT).show()
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(context, "ggggg", Toast.LENGTH_SHORT).show()
         }
     }
 }

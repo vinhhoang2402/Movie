@@ -19,7 +19,7 @@
         android:layout_height="match_parent"
         android:background="@color/Black"
         tools:context=".ui.detail.DetailFragment"
-        app:layoutDescription="@xml/fragment_detail_scene">
+        tools:showPaths="true">
 
         <ProgressBar
             android:id="@+id/progress"
@@ -35,10 +35,11 @@
         <ImageView
             android:id="@+id/poster"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="100dp"
             android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@+id/back"
@@ -48,7 +49,8 @@
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_baseline_keyboard_backspace_24"
             app:layout_constraintStart_toStartOf="@id/poster"
-            app:layout_constraintTop_toTopOf="@id/poster" />
+            app:layout_constraintTop_toTopOf="@id/poster"
+            android:contentDescription="TODO" />
 
         <ImageView
             android:id="@id/image"
@@ -59,49 +61,50 @@
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_baseline_system_update_alt_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/poster" />
+            app:layout_constraintTop_toTopOf="@id/poster"
+            android:contentDescription="TODO" />
 
         <TextView
+            android:layout_marginStart="8dp"
             android:id="@+id/name_movie"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="40dp"
-            android:layout_marginBottom="80dp"
             android:ellipsize="marquee"
             android:singleLine="true"
             android:text="@string/name_movie"
             android:textColor="@color/White"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/poster"
-            app:layout_constraintEnd_toStartOf="@id/year"
-            app:layout_constraintStart_toStartOf="@id/poster" />
+            app:layout_constraintTop_toTopOf="@id/back"
+            app:layout_constraintStart_toEndOf="@id/back"
+            app:layout_constraintBottom_toBottomOf="@id/back"
+            />
 
-        <TextView
-            android:id="@+id/year"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            android:text="@string/create_year"
-            android:textColor="@color/White"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/name_movie"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/name_movie"
-            app:layout_constraintTop_toTopOf="@id/name_movie" />
         <ImageView
-            app:layout_constraintBottom_toBottomOf="@id/history"
+            android:rotation="180"
+            app:layout_constraintBottom_toBottomOf="@id/drama"
             android:src="@drawable/ic_baseline_navigation_24"
-            app:layout_constraintTop_toBottomOf="@id/year"
-            app:layout_constraintTop_toTopOf="@id/history"
-            app:layout_constraintEnd_toEndOf="@id/year"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             android:id="@+id/directional"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
         <TextView
+            android:id="@+id/year"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="@string/create_year"
+            android:textColor="@color/White"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            app:layout_constraintTop_toTopOf="@id/image"
+            app:layout_constraintBottom_toBottomOf="@id/image"
+            app:layout_constraintEnd_toStartOf="@id/image"/>
+
+        <TextView
+            android:alpha="0"
             android:id="@+id/action"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -117,6 +120,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_movie" />
 
         <TextView
+            android:alpha="0"
             android:id="@+id/drama"
             android:layout_width="60dp"
             android:layout_height="wrap_content"
@@ -132,6 +136,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_movie" />
 
         <TextView
+            android:alpha="0"
             android:id="@+id/history"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
@@ -147,6 +152,7 @@
             app:layout_constraintTop_toBottomOf="@id/name_movie" />
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/frame"
             android:layout_width="50dp"
             android:layout_height="50dp"
@@ -180,10 +186,11 @@
         <ScrollView
             android:id="@+id/scroll_des"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:paddingStart="10dp"
             android:paddingEnd="10dp"
             android:paddingBottom="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/dess">
