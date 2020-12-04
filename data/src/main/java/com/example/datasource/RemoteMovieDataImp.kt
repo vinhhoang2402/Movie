@@ -1,5 +1,6 @@
 package com.example.datasource
 
+import android.util.Log
 import com.example.api.MovieAPI
 import com.example.common.DataConstants
 import com.example.domain.entity.MovieDetailResponseEntity
@@ -22,8 +23,7 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
             DataConstants.API_KEY,
             DataConstants.LANGUAGE,
             DataConstants.PAGE
-        )
-            .map {
+        ).map {
                 it.toMovieDetailResponseEntity()
             }
     }

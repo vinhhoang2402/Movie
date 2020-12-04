@@ -47,6 +47,7 @@ class DetailFragment : Fragment() {
         val movie = arguments?.getSerializable("movie") as MovieData
         movieViewModel.getMovieDetail(movie.id.toInt())
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
+            Log.d("detail2222", it.movieDetails.size.toString())
             if (it.movieDetails.size > 0) {
                 bind(it, movie)
             } else {

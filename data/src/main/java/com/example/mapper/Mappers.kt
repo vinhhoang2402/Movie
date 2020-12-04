@@ -1,5 +1,6 @@
 package com.example.mapper
 
+import android.util.Log
 import com.example.data.MovieData
 import com.example.data.MovieDetailData
 import com.example.data.MovieDetailResponseData
@@ -35,6 +36,7 @@ fun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(
 
 fun MovieDetailResponseData.toMovieDetailResponseEntity() =
     MovieDetailResponseEntity(this.id, this.results.map {
+        Log.d("oooo",it.toMovieDetailEntity().toString())
         it.toMovieDetailEntity()
     }.toMutableList())
 
