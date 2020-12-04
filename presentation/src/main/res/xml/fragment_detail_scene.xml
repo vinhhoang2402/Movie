@@ -13,12 +13,8 @@
         app:duration="1000"
         app:constraintSetEnd="@layout/fragment_detail_end"
         app:constraintSetStart="@layout/fragment_detail">
-
         <OnClick
             app:targetId="@+id/directional"
             app:clickAction="toggle"/>
-
     </Transition>
-
-
 </MotionScene>

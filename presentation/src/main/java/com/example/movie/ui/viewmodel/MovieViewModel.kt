@@ -10,6 +10,8 @@ import com.example.movie.mapper.MovieDataResponseMapper
 import com.example.movie.mapper.toMovieDetailResponseData
 import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.model.MovieResponseData
+import java.sql.Time
+import java.util.concurrent.TimeUnit
 
 class MovieViewModel(
     private val connectionStatusUseCase: GetConnectionStatusUseCase,
@@ -44,6 +46,7 @@ class MovieViewModel(
                 .doFinally {
                     showLoading(false)
                 }
+                .delay(2,TimeUnit.SECONDS)
                 .subscribe({
                     movieResponse.postValue(MovieDataResponseMapper().map(it))
                 }, {

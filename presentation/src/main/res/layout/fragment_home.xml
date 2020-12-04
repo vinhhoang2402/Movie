@@ -4,9 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
         <import type="android.view.View" />
-
         <variable
             name="isLoading"
             type="Boolean" />
@@ -59,8 +57,29 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view" />
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/ct_shimmer_home"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            android:layout_width="match_parent"
+            android:layout_height="0dp">
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <include
+                    layout="@layout/shimmer_home_placeholder_layout"/>
+                <include
+                    layout="@layout/shimmer_home_placeholder_layout"/>
+                <include
+                    layout="@layout/shimmer_home_placeholder_layout"/>
+            </LinearLayout>
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:visibility="gone"
             android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="0dp"

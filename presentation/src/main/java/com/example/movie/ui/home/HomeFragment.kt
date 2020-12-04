@@ -17,6 +17,10 @@ import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.model.MovieData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+import io.reactivex.Observable
+import kotlinx.android.synthetic.main.item_movie.*
+import kotlinx.android.synthetic.main.shimmer_home_placeholder_layout.*
+import java.util.*
 
 class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
@@ -42,10 +46,10 @@ class HomeFragment : Fragment() {
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
-        binding.isLoading = true
         movieViewModel.movie.observe(requireActivity(), Observer {
-            Log.d("aaaaa", it.toString())
-            binding.isLoading = false
+            binding.ctShimmerHome.stopShimmerAnimation()
+            binding.ctShimmerHome.visibility=View.GONE
+            binding.rvMovie.visibility=View.VISIBLE
             list.clear()
             list.addAll(it.movies)
             adapter.set(it.movies)
@@ -106,5 +110,15 @@ class HomeFragment : Fragment() {
         }
         Log.d("vvv", listFilter.toString())
         return listFilter.toMutableList()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding.ctShimmerHome.startShimmerAnimation()
+    }
+
+    override fun onPause() {
+        binding.ctShimmerHome.stopShimmerAnimation()
+        super.onPause()
     }
 }

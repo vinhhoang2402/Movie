@@ -165,6 +165,7 @@
         </FrameLayout>
 
         <TextView
+            android:alpha="0"
             android:id="@+id/dess"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
