@@ -18,6 +18,7 @@ import com.example.movie.model.MovieData
 import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+import kotlinx.android.synthetic.main.fragment_detail.*
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -39,6 +40,8 @@ class DetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
+        binding.viewmodel = movieViewModel
+        binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }
 
@@ -58,12 +61,11 @@ class DetailFragment : Fragment() {
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
-
     }
 
     private fun bind(it: MovieDetailResponseData, movie: MovieData) {
-        binding.content = it.movieDetails[0].content
-        binding.year.text = formatYear(it.movieDetails[0].created_at)
+        binding.des.text = it.movieDetails[0].content
+        binding.year.text = it.movieDetails[0].created_at
         binding.nameMovie.text = movie.title
         binding.nameMovie.isSelected = true
         Glide.with(requireActivity())
@@ -71,12 +73,12 @@ class DetailFragment : Fragment() {
             .into(binding.poster)
     }
 
-    private fun formatYear(year: String): String {
-        val newYear = year.substring(0, 4)
-        val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
-        val date = formatter.parse(newYear)
-        return formatter.format(date)
-    }
+//    private fun formatYear(year: String): String {
+//        val newYear = year.substring(0, 4)
+//        val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
+//        val date = formatter.parse(newYear)
+//        return formatter.format(date)
+//    }
 
     private fun showDialog() {
         val builder = AlertDialog.Builder(requireContext())

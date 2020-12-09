@@ -9,6 +9,8 @@ import com.example.movie.model.MovieData
 import com.example.movie.model.MovieDetail
 import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.model.MovieResponseData
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview)
@@ -25,11 +27,18 @@ fun MovieDetailEntity.toMovieDetail() = MovieDetail(
     this.author,
     this.author_details!!.toAuthorDetails(),
     this.content,
-    this.created_at,
+    formatYear(this.created_at),
     this.id,
     this.updated_at,
     this.url
 )
+
+private fun formatYear(year: String): String {
+    val newYear = year.substring(0, 4)
+    val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
+    val date = formatter.parse(newYear)
+    return formatter.format(date)
+}
 
 fun MovieDetailResponseEntity.toMovieDetailResponseData() =
     MovieDetailResponseData(this.results.map {
