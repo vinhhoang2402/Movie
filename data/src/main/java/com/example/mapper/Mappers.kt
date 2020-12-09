@@ -16,7 +16,7 @@ fun MovieData.toMovieEntity() =
 
 fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
     it.toMovieEntity()
-}.toMutableList())
+})
 
 //movieDetail
 fun MovieDetailData.AuthorDetails.toAuthorDetails() = MovieDetailEntity.AuthorDetails(
@@ -38,7 +38,7 @@ fun MovieDetailResponseData.toMovieDetailResponseEntity() =
     MovieDetailResponseEntity(this.id, this.results.map {
         Log.d("oooo",it.toMovieDetailEntity().toString())
         it.toMovieDetailEntity()
-    }.toMutableList())
+    })
 
 //local
 fun MovieEntity.toMovieData() = MovieData(this.id, this.title, this.backdrop_path, this.overview)

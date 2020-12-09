@@ -38,6 +38,9 @@ class MainActivity : AppCompatActivity() {
             .get(MovieViewModel::class.java)
         movieViewModel.getMovie()
         Log.d("viewModelTest1", movieViewModel.toString())
+        movieViewModel.status.observe(this, Observer {
+            Toast.makeText(this, "connect ${it.toString()}", Toast.LENGTH_SHORT).show()
+        })
     }
 
     override fun onSupportNavigateUp(): Boolean {

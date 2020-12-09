@@ -24,11 +24,12 @@ class LocalDataMovieImp(
     }
 
     override fun getMovieLocalData(): Single<MovieResponseEntity> {
+        Log.d("vvvvMovie", "it.toMovieEntity().toString()")
         return Single.just(
             MovieResponseEntity(dao.getMovie().map {
                 Log.d("vvvvMovie", it.toMovieEntity().toString())
                 it.toMovieEntity()
-            }.toMutableList())
+            })
         )
     }
 
@@ -47,7 +48,7 @@ class LocalDataMovieImp(
         return Single.just(
             MovieDetailResponseEntity(movieId, daoDetail.getMovieDetail(movieId).map {
                 it.toMovieDetailEntity()
-            }.toMutableList())
+            })
         )
     }
 }

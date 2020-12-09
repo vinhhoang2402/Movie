@@ -46,7 +46,8 @@ class HomeFragment : Fragment() {
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
-        movieViewModel.movie.observe(requireActivity(), Observer {
+        binding.lifecycleOwner = viewLifecycleOwner
+        movieViewModel.movie.observe(viewLifecycleOwner, Observer {
             binding.ctShimmerHome.stopShimmerAnimation()
             binding.ctShimmerHome.visibility=View.GONE
             binding.rvMovie.visibility=View.VISIBLE

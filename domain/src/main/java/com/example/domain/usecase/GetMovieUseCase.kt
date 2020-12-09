@@ -13,6 +13,7 @@ class GetMovieUseCase(
     uiThread: Scheduler,
     executorThread: Scheduler
 ) : SingleUseCase<MovieResponseEntity>(uiThread, executorThread) {
+
     override fun create(): Single<MovieResponseEntity> {
         return movieRepository.getMovie().timeout(3, TimeUnit.SECONDS).retry { times, throwable ->
             times < 5 && throwable is TimeoutException

@@ -1,6 +1,6 @@
 package com.example.data
 
 data class MovieDetailResponseData(
-    var id: Long,
-    var results: MutableList<MovieDetailData> = mutableListOf()
+    var id: Long = 0,
+    var results: List<MovieDetailData> = listOf()
 )

@@ -13,6 +13,7 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
     override fun getMovie(): Single<MovieResponseEntity> {
         return movieAPI.getMovie(DataConstants.API_KEY, DataConstants.LANGUAGE, DataConstants.PAGE)
             .map {
+                Log.d("aaa",it.toString())
                 it.toMovieResponseEntity()
             }
     }
