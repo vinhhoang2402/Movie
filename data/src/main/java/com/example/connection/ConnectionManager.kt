@@ -13,20 +13,17 @@ class ConnectionManager(private val context: Context) {
     var isConnected = false
 
     private val connectionSubject = PublishSubject.create<Boolean>()
+    //emit isConnect from Register network
 
     init {
         checkNetworkConnection(context)
     }
 
-    private fun checkConnection(emitter: ObservableEmitter<Boolean>) {
-        checkNetworkConnection(context)
-        emitter.onNext(false)
-        emitter.onComplete()
-    }
 
     fun getConnectionStatus(): Observable<Boolean> {
         return Observable.create { emitter: ObservableEmitter<Boolean> ->
-            checkConnection(emitter)
+            emitter.onNext(false)
+            emitter.onComplete()
         }.flatMap {
             connectionSubject
         }.map {

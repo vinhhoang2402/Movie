@@ -51,7 +51,7 @@ class DetailFragment : Fragment() {
         movieViewModel.getMovieDetail(movie.id.toInt())
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
             Log.d("detail2222", it.movieDetails.size.toString())
-            if (it.movieDetails.size > 0) {
+            if (it.movieDetails.isNotEmpty()) {
                 bind(it, movie)
             } else {
                 binding.ctDetail.visibility = View.GONE
@@ -64,8 +64,8 @@ class DetailFragment : Fragment() {
     }
 
     private fun bind(it: MovieDetailResponseData, movie: MovieData) {
-        binding.des.text = it.movieDetails[0].content
-        binding.year.text = it.movieDetails[0].created_at
+//        binding.des.text = it.movieDetails[0].content
+        //binding.year.text = it.movieDetails[0].created_at
         binding.nameMovie.text = movie.title
         binding.nameMovie.isSelected = true
         Glide.with(requireActivity())
@@ -73,20 +73,13 @@ class DetailFragment : Fragment() {
             .into(binding.poster)
     }
 
-//    private fun formatYear(year: String): String {
-//        val newYear = year.substring(0, 4)
-//        val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
-//        val date = formatter.parse(newYear)
-//        return formatter.format(date)
-//    }
-
     private fun showDialog() {
         val builder = AlertDialog.Builder(requireContext())
         with(builder)
         {
             setTitle("Alert !")
             setMessage("404 Not found")
-            builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
+            setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
                 dialogInterface.dismiss()
                 findNavController().navigateUp()
             })

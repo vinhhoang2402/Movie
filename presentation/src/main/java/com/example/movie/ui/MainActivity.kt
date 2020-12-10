@@ -46,6 +46,4 @@ class MainActivity : AppCompatActivity() {
     override fun onSupportNavigateUp(): Boolean {
         return Navigation.findNavController(this, R.id.nav_graph).navigateUp()
     }
-
-
 }

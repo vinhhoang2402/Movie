@@ -11,6 +11,7 @@ import com.example.movie.mapper.toMovieDetailResponseData
 import com.example.movie.mapper.toMovieResponseData
 import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.model.MovieResponseData
+import java.util.concurrent.Flow
 import java.util.concurrent.TimeUnit
 
 class MovieViewModel(
