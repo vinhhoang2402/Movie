@@ -19,7 +19,10 @@ data class MovieDetailData(
     var created_at: String = "",
     var updated_at: String = "",
     var url: String = ""
-) : Serializable {
+)
+    : Serializable
+{
+
 
     @PrimaryKey(autoGenerate = true)
     var localId: Long = 0L

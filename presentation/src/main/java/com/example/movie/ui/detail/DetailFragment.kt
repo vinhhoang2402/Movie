@@ -65,7 +65,7 @@ class DetailFragment : Fragment() {
 
     private fun bind(it: MovieDetailResponseData, movie: MovieData) {
 //        binding.des.text = it.movieDetails[0].content
-        //binding.year.text = it.movieDetails[0].created_at
+//        binding.year.text = it.movieDetails[0].created_at
         binding.nameMovie.text = movie.title
         binding.nameMovie.isSelected = true
         Glide.with(requireActivity())

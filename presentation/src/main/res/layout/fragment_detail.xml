@@ -67,7 +67,7 @@
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.movieDetail.movieDetails.get(0).created_at}"
+            android:text="@{viewmodel.movieDetail.movieDetails.size() > 0 ? viewmodel.movieDetail.movieDetails.get(0).created_at : String.valueOf(0)}"
             android:layout_marginEnd="20dp"
             android:textColor="@color/White"
             android:textSize="14sp"
@@ -175,7 +175,7 @@
             app:layout_constraintTop_toBottomOf="@id/dess">
 
             <TextView
-                android:text="@{viewmodel.movieDetail.movieDetails.get(0).content}"
+                android:text="@{viewmodel.movieDetail.movieDetails.size() > 0 ? viewmodel.movieDetail.movieDetails.get(0).content : String.valueOf(0)}"
                 android:id="@+id/des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
