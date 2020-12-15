@@ -5,7 +5,6 @@ import android.net.ConnectivityManager
 import android.net.Network
 import android.os.Build
 import android.util.Log
-import io.reactivex.Emitter
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
 import io.reactivex.subjects.PublishSubject
@@ -14,16 +13,20 @@ class ConnectionManager(private val context: Context) {
     var isConnected = false
 
     private val connectionSubject = PublishSubject.create<Boolean>()
-    //emit isConnect from Register network
 
     init {
         checkNetworkConnection(context)
     }
 
+    private fun checkConnection(emitter: ObservableEmitter<Boolean>) {
+        checkNetworkConnection(context)
+        emitter.onNext(false)
+        emitter.onComplete()
+    }
+
     fun getConnectionStatus(): Observable<Boolean> {
         return Observable.create { emitter: ObservableEmitter<Boolean> ->
-            emitter.onNext(false)
-            emitter.onComplete()
+            checkConnection(emitter)
         }.flatMap {
             connectionSubject
         }.map {

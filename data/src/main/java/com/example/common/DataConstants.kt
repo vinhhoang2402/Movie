@@ -5,4 +5,5 @@ object DataConstants {
     const val LANGUAGE = "en-US"
     const val PAGE = 1
     const val URL_IMAGE = "https://image.tmdb.org/t/p/w500"
+    const val YOUTUBE="https://www.youtube.com/watch?v="
 }

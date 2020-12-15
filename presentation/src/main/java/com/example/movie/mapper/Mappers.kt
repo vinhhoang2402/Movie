@@ -1,20 +1,25 @@
 package com.example.movie.mapper
 
 import android.util.Log
-import com.example.domain.entity.MovieDetailEntity
-import com.example.domain.entity.MovieDetailResponseEntity
-import com.example.domain.entity.MovieEntity
-import com.example.domain.entity.MovieResponseEntity
-import com.example.movie.model.MovieData
-import com.example.movie.model.MovieDetail
-import com.example.movie.model.MovieDetailResponseData
-import com.example.movie.model.MovieResponseData
+import com.example.data.MovieVideoData
+import com.example.data.MovieVideoDataReponse
+import com.example.domain.entity.*
+import com.example.movie.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview)
 
+fun MovieVideoEntity.toMovieVideo()=MovieVideo(
+    this.id,
+    this.iso31661,this.iso6391,this.key,this.name,this.site,this.size,this.type
+)
+fun MovieVideoEntityReponse.toMovieVideoPresentation()= MovieVideoResponse(
+    this.results.map {
+        it.toMovieVideo()
+    }
+)
 fun MovieResponseEntity.toMovieResponseData()=MovieResponseData(this.results.map {
     it.toMovieData()
 })

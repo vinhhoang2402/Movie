@@ -39,7 +39,8 @@ class MainActivity : AppCompatActivity() {
         movieViewModel.getMovie()
         Log.d("viewModelTest1", movieViewModel.toString())
         movieViewModel.status.observe(this, Observer {
-            Toast.makeText(this, "connect ${it.toString()}", Toast.LENGTH_SHORT).show()
+
+            Toast.makeText(this, "connect $it", Toast.LENGTH_SHORT).show()
         })
     }
 
