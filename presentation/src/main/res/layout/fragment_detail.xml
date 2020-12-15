@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <import type="android.view.View" />
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="com.example.movie.model.MovieData" />
         <variable
             name="viewmodel"
             type="com.example.movie.ui.viewmodel.MovieViewModel" />
@@ -17,7 +20,6 @@
         android:background="@color/Black"
         tools:context=".ui.detail.DetailFragment"
         app:layoutDescription="@xml/fragment_detail_scene">
-
 
         <ImageView
             android:id="@+id/poster"
@@ -50,6 +52,7 @@
 
         <TextView
             android:id="@+id/name_movie"
+            android:text="@{model.title}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -69,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:text="@{viewmodel.movieDetail.movieDetails.get(0).created_at}"
             android:textColor="@color/White"
             android:textSize="14sp"
             android:textStyle="bold"

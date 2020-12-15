@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -51,34 +52,29 @@ class DetailFragment : Fragment() {
         movieViewModel.getMovieDetail(movie.id.toInt())
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
             Log.d("detail2222", it.movieDetails.size.toString())
-            if (it.movieDetails.size > 0) {
-                bind(it, movie)
+            if (it.movieDetails.isNotEmpty()) {
+                bind(movie)
             } else {
-                binding.ctDetail.visibility = View.GONE
+                //binding.ctDetail.visibility = View.GONE
                 showDialog()
             }
+        })
+        movieViewModel.getMovieVideo(movie.id.toInt())
+        movieViewModel.video.observe(viewLifecycleOwner, Observer {
+            Log.d("vvvvvvv", it.toString())
+            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
         })
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
-    private fun bind(it: MovieDetailResponseData, movie: MovieData) {
-        binding.des.text = it.movieDetails[0].content
-        binding.year.text = it.movieDetails[0].created_at
-        binding.nameMovie.text = movie.title
-        binding.nameMovie.isSelected = true
+    private fun bind(movie: MovieData) {
         Glide.with(requireActivity())
             .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
             .into(binding.poster)
     }
 
-//    private fun formatYear(year: String): String {
-//        val newYear = year.substring(0, 4)
-//        val formatter = SimpleDateFormat("yyyy", Locale.getDefault())
-//        val date = formatter.parse(newYear)
-//        return formatter.format(date)
-//    }
 
     private fun showDialog() {
         val builder = AlertDialog.Builder(requireContext())
@@ -86,7 +82,7 @@ class DetailFragment : Fragment() {
         {
             setTitle("Alert !")
             setMessage("404 Not found")
-            builder.setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
+            setPositiveButton("OK", DialogInterface.OnClickListener { dialogInterface, i ->
                 dialogInterface.dismiss()
                 findNavController().navigateUp()
             })

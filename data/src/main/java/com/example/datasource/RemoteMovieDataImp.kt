@@ -5,8 +5,9 @@ import com.example.api.MovieAPI
 import com.example.common.DataConstants
 import com.example.domain.entity.MovieDetailResponseEntity
 import com.example.domain.entity.MovieResponseEntity
-import com.example.mapper.toMovieDetailResponseEntity
-import com.example.mapper.toMovieResponseEntity
+import com.example.domain.entity.MovieVideoEntity
+import com.example.domain.entity.MovieVideoEntityReponse
+import com.example.mapper.*
 import io.reactivex.Single
 
 class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResource {
@@ -22,10 +23,20 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
         return movieAPI.getMovieDetail(
             idMovie,
             DataConstants.API_KEY,
-            DataConstants.LANGUAGE,
-            DataConstants.PAGE
+            DataConstants.LANGUAGE
         ).map {
                 it.toMovieDetailResponseEntity()
             }
+    }
+
+    override fun getMovieVideo(idMovie: Int): Single<MovieVideoEntityReponse> {
+        return movieAPI.getMovieVideo(
+            idMovie,
+            DataConstants.API_KEY,
+            DataConstants.LANGUAGE
+        ).map {
+            Log.d("ooooo",it.toString())
+            it.toMovieVideoResponseEntity()
+        }
     }
 }
