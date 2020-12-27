@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+        <import type="android.view.View"/>
+        <variable
+            name="model"
+            type="com.example.movie.model.MovieData" />
         <variable
             name="viewmodel"
             type="com.example.movie.ui.viewmodel.MovieViewModel" />
@@ -18,14 +22,11 @@
         app:layoutDescription="@xml/fragment_detail_scene">
 
 
-        <ImageView
-            android:id="@+id/poster"
+        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
+            android:id="@+id/youtube_player_view"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            app:enableAutomaticInitialization="false"
+            android:layout_height="400dp" />
         <ImageView
             android:id="@+id/back"
             android:layout_width="wrap_content"
@@ -33,8 +34,8 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="30dp"
             android:src="@drawable/ic_baseline_keyboard_backspace_24"
-            app:layout_constraintStart_toStartOf="@id/poster"
-            app:layout_constraintTop_toTopOf="@id/poster" />
+            app:layout_constraintStart_toStartOf="@id/youtube_player_view"
+            app:layout_constraintTop_toTopOf="@id/youtube_player_view" />
 
         <ImageView
             android:id="@id/image"
@@ -45,10 +46,11 @@
             android:layout_marginEnd="10dp"
             android:src="@drawable/ic_baseline_system_update_alt_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/poster" />
+            app:layout_constraintTop_toTopOf="@id/youtube_player_view" />
 
         <TextView
             android:id="@+id/name_movie"
+            android:text="@{model.title}"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -59,15 +61,14 @@
             android:textColor="@color/White"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/poster"
+            app:layout_constraintBottom_toBottomOf="@id/youtube_player_view"
             app:layout_constraintEnd_toStartOf="@id/year"
-            app:layout_constraintStart_toStartOf="@id/poster" />
+            app:layout_constraintStart_toStartOf="@id/youtube_player_view" />
 
         <TextView
             android:id="@+id/year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{viewmodel.movieDetail.movieDetails.size() > 0 ? viewmodel.movieDetail.movieDetails.get(0).created_at : String.valueOf(0)}"
             android:layout_marginEnd="20dp"
             android:textColor="@color/White"
             android:textSize="14sp"
@@ -77,77 +78,13 @@
             app:layout_constraintStart_toEndOf="@id/name_movie"
             app:layout_constraintTop_toTopOf="@id/name_movie" />
         <ImageView
-            app:layout_constraintBottom_toBottomOf="@id/history"
+            app:layout_constraintBottom_toBottomOf="@id/name_movie"
             android:src="@drawable/ic_baseline_navigation_24"
-            app:layout_constraintTop_toBottomOf="@id/year"
-            app:layout_constraintTop_toTopOf="@id/history"
-            app:layout_constraintEnd_toEndOf="@id/year"
+            app:layout_constraintEnd_toEndOf="@id/name_movie"
             android:id="@+id/directional"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
-        <TextView
-            android:id="@+id/action"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_text"
-            android:gravity="center"
-            android:padding="6dp"
-            android:text="@string/action"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/name_movie" />
-
-        <TextView
-            android:id="@+id/drama"
-            android:layout_width="60dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_text"
-            android:gravity="center"
-            android:padding="6dp"
-            android:text="@string/drama"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/action"
-            app:layout_constraintTop_toBottomOf="@id/name_movie" />
-
-        <TextView
-            android:id="@+id/history"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/border_text"
-            android:gravity="center"
-            android:padding="6dp"
-            android:text="@string/history"
-            android:textColor="@color/White"
-            android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/drama"
-            app:layout_constraintTop_toBottomOf="@id/name_movie" />
-
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            app:layout_constraintBottom_toBottomOf="@id/poster"
-            app:layout_constraintEnd_toEndOf="@id/poster"
-            app:layout_constraintStart_toStartOf="@id/poster"
-            app:layout_constraintTop_toTopOf="@id/poster">
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/border_active"
-                android:src="@drawable/ic_baseline_play_arrow_24" />
-        </FrameLayout>
 
         <TextView
             android:alpha="0"
@@ -161,7 +98,7 @@
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/poster" />
+            app:layout_constraintTop_toBottomOf="@id/youtube_player_view" />
 
         <ScrollView
             android:id="@+id/scroll_des"
@@ -175,7 +112,6 @@
             app:layout_constraintTop_toBottomOf="@id/dess">
 
             <TextView
-                android:text="@{viewmodel.movieDetail.movieDetails.size() > 0 ? viewmodel.movieDetail.movieDetails.get(0).content : String.valueOf(0)}"
                 android:id="@+id/des"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
