@@ -37,6 +37,9 @@ class MainActivity : AppCompatActivity() {
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
         movieViewModel.getMovie()
+        movieViewModel.video.observe(this, Observer {
+            Log.d("video", "bbbbb"+it.toString())
+        })
         Log.d("viewModelTest1", movieViewModel.toString())
         movieViewModel.status.observe(this, Observer {
 

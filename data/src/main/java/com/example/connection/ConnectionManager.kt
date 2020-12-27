@@ -7,12 +7,14 @@ import android.os.Build
 import android.util.Log
 import io.reactivex.Observable
 import io.reactivex.ObservableEmitter
+import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.PublishSubject
 
 class ConnectionManager(private val context: Context) {
-    var isConnected = false
+    var isConnected : Boolean= false
 
-    private val connectionSubject = PublishSubject.create<Boolean>()
+    private val connectionSubject =
+        PublishSubject.create<Boolean>()
 
     init {
         checkNetworkConnection(context)
@@ -20,7 +22,7 @@ class ConnectionManager(private val context: Context) {
 
     private fun checkConnection(emitter: ObservableEmitter<Boolean>) {
         checkNetworkConnection(context)
-        emitter.onNext(false)
+        emitter.onNext(isConnected)
         emitter.onComplete()
     }
 

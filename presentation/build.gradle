@@ -45,7 +45,6 @@ dependencies {
     implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
-    implementation 'com.codewaves.youtubethumbnailview:library:0.9.2'
 
     implementation rxJava2
     implementation rxAndroid2
