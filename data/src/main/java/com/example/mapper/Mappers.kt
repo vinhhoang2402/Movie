@@ -1,14 +1,8 @@
 package com.example.mapper
 
 import android.util.Log
-import com.example.data.MovieData
-import com.example.data.MovieDetailData
-import com.example.data.MovieDetailResponseData
-import com.example.data.MovieResponseData
-import com.example.domain.entity.MovieDetailEntity
-import com.example.domain.entity.MovieDetailResponseEntity
-import com.example.domain.entity.MovieEntity
-import com.example.domain.entity.MovieResponseEntity
+import com.example.data.*
+import com.example.domain.entity.*
 
 //remote
 fun MovieData.toMovieEntity() =
@@ -36,9 +30,20 @@ fun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(
 
 fun MovieDetailResponseData.toMovieDetailResponseEntity() =
     MovieDetailResponseEntity(this.id, this.results.map {
-        Log.d("oooo",it.toMovieDetailEntity().toString())
         it.toMovieDetailEntity()
     })
+
+
+fun MovieVideoData.toMovieVideo()= MovieVideoEntity(
+    this.id,this.iso31661,this.iso6391,this.key,
+    this.name,this.site,this.size,this.type
+)
+fun MovieVideoDataReponse.toMovieVideoResponseEntity()= MovieVideoEntityReponse(
+    this.results.map {
+        Log.d("oooo",it.toMovieVideo().toString())
+        it.toMovieVideo()
+    }
+)
 
 //local
 fun MovieEntity.toMovieData() = MovieData(this.id, this.title, this.backdrop_path, this.overview)
@@ -58,6 +63,8 @@ fun MovieDetailEntity.toMovieDetailData(movieId: Long) = MovieDetailData(
     this.updated_at,
     this.url
 )
+
+
 
 
 

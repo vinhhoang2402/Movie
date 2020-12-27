@@ -1,7 +1,6 @@
 package com.example.movie.di
 
 import android.content.Context
-import android.util.Log
 import com.example.api.MovieApiClient
 import com.example.connection.ConnectionManager
 import com.example.datasource.LocalDataMovieImp

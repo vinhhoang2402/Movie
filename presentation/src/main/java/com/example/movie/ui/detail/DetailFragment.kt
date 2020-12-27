@@ -14,9 +14,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
-import com.codewaves.youtubethumbnailview.ThumbnailLoader
-import com.codewaves.youtubethumbnailview.ThumbnailLoadingListener
 import com.example.common.DataConstants
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.model.MovieData
@@ -25,9 +22,6 @@ import com.example.movie.ui.viewmodel.MovieViewModelFactory
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerFullScreenListener
-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.YouTubePlayerListener
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_detail.*
 
 

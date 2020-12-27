@@ -6,6 +6,7 @@ import com.example.datasource.LocalMovieDataResource
 import com.example.datasource.RemoteMovieDataResource
 import com.example.domain.entity.MovieDetailResponseEntity
 import com.example.domain.entity.MovieResponseEntity
+import com.example.domain.entity.MovieVideoEntityReponse
 import com.example.domain.repository.MovieRepository
 import io.reactivex.Single
 
@@ -17,6 +18,8 @@ class MovieRepositoryImp(
     private fun remoteDataResource() = remoteMovieDataResource.getMovie().doOnSuccess {
         saveMovieLocal(it)
     }
+
+    private fun remoteVideoDataSource(id:Int) = remoteMovieDataResource.getMovieVideo(id)
 
     private fun saveMovieLocal(movieResponseEntity: MovieResponseEntity) = localMovieDataResource
         .saveMovieLocalData(movieResponseEntity)
@@ -47,6 +50,12 @@ class MovieRepositoryImp(
             Log.d("hhhhh", "local")
             return localMovieDataResource.getMovieDetailLocalData(id.toLong())
         }
+    }
+
+    override fun getMovieVideo(id: Int): Single<MovieVideoEntityReponse>
+    {
+        Log.d("ddd","vinhhoang")
+        return remoteVideoDataSource(id)
     }
 
 }
