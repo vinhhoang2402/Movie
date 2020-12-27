@@ -55,6 +55,7 @@ class MovieRepositoryImp(
 
     override fun getMovieVideo(id: Int): Single<MovieVideoEntityReponse>
     {
+        Log.d("ddd","vinhhoang")
         return remoteVideoDataSource(id)
     }
 

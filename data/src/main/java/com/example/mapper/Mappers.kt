@@ -30,7 +30,6 @@ fun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(
 
 fun MovieDetailResponseData.toMovieDetailResponseEntity() =
     MovieDetailResponseEntity(this.id, this.results.map {
-        Log.d("oooo",it.toMovieDetailEntity().toString())
         it.toMovieDetailEntity()
     })
 
@@ -41,6 +40,7 @@ fun MovieVideoData.toMovieVideo()= MovieVideoEntity(
 )
 fun MovieVideoDataReponse.toMovieVideoResponseEntity()= MovieVideoEntityReponse(
     this.results.map {
+        Log.d("oooo",it.toMovieVideo().toString())
         it.toMovieVideo()
     }
 )
