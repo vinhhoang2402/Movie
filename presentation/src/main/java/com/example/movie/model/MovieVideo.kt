@@ -2,8 +2,8 @@ package com.example.movie.model
 
 data class MovieVideo(
         val id: String="",
-        val iso31661: String="",
-        val iso6391: String="",
+        val iso31661: String?=null,
+        val iso6391: String?=null,
         val key: String="",
         val name: String="",
         val site: String="",
