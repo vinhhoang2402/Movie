@@ -77,10 +77,8 @@ class MovieViewModel(
                     showLoading(false)
                 }
                 .subscribe({
-                    Log.d("vinh","hoang"+it.toString())
                     movieDetailResponse.postValue(it.toMovieDetailResponseData())
                 }, {
-                    Log.d("aaaa","dung"+it.toString())
                     showMessage(it.toString())
                 })
         )
@@ -91,16 +89,13 @@ class MovieViewModel(
                 .doOnSubscribe {
                     showLoading(true)
                 }
-                .doFinally {
-                    showLoading(false)
-                }
                 .subscribe({
-                    Log.d("vinh","dung"+it.toString())
+                    Log.d("vinh",it.toString())
                     movieVideo.postValue(it.toMovieVideoPresentation())
                 },{
-                    Log.d("aaaa","dung"+it.toString())
                     showMessage(it.toString())
                 })
         )
     }
+
 }
