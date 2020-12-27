@@ -4,24 +4,25 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.OrientationEventListener
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
-import com.bumptech.glide.Glide
 import com.example.common.DataConstants
 import com.example.movie.databinding.FragmentDetailBinding
 import com.example.movie.model.MovieData
-import com.example.movie.model.MovieDetailResponseData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
 import kotlinx.android.synthetic.main.fragment_detail.*
-import java.text.SimpleDateFormat
-import java.util.*
 
 
 class DetailFragment : Fragment() {
@@ -43,6 +44,7 @@ class DetailFragment : Fragment() {
         binding = FragmentDetailBinding.inflate(inflater, container, false)
         binding.viewmodel = movieViewModel
         binding.lifecycleOwner = viewLifecycleOwner
+        lifecycle.addObserver(binding.youtubePlayerView)
         return binding.root
     }
 
@@ -50,6 +52,23 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val movie = arguments?.getSerializable("movie") as MovieData
         movieViewModel.getMovieDetail(movie.id.toInt())
+        movieViewModel.getMovieVideo(movie.id.toInt())
+        movieViewModel.video.observe(viewLifecycleOwner, Observer {
+            binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {
+
+                override fun onReady(youTubePlayer: YouTubePlayer) {
+                    if (lifecycle.currentState==Lifecycle.State.RESUMED){
+                        Log.d("ready ","load video")
+                        youTubePlayer.loadVideo(it.video[0].key,2f)
+                    }else{
+                        Log.d("ready ","cue video")
+                        youTubePlayer.cueVideo(it.video[0].key,0f)
+                    }
+
+                }
+            },true)
+        })
+
         movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {
             Log.d("detail2222", it.movieDetails.size.toString())
             if (it.movieDetails.isNotEmpty()) {
@@ -59,20 +78,15 @@ class DetailFragment : Fragment() {
                 showDialog()
             }
         })
-        movieViewModel.getMovieVideo(movie.id.toInt())
-        movieViewModel.video.observe(viewLifecycleOwner, Observer {
-            Log.d("vvvvvvv", it.toString())
-            Toast.makeText(requireContext(), it.toString(), Toast.LENGTH_SHORT).show()
-        })
         binding.back.setOnClickListener {
             findNavController().navigateUp()
         }
     }
 
     private fun bind(movie: MovieData) {
-        Glide.with(requireActivity())
-            .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
-            .into(binding.poster)
+//        Glide.with(requireActivity())
+//            .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
+//            .into(binding.poster)
     }
 
 
@@ -88,5 +102,10 @@ class DetailFragment : Fragment() {
             })
             show()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        binding.youtubePlayerView.release()
     }
 }
