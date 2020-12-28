@@ -9,5 +9,6 @@ data class MovieData(
     val id: Long = 0L,
     var title: String,
     var backdrop_path: String,
-    var overview: String
+    var overview: String,
+    val vote_average: Float
 )

@@ -75,7 +75,7 @@ class DetailFragment : Fragment() {
                 bind(movie)
             } else {
                 //binding.ctDetail.visibility = View.GONE
-                showDialog()
+                //showDialog()
             }
         })
         binding.back.setOnClickListener {

@@ -60,6 +60,7 @@ class MovieViewModel(
                 .delay(2,TimeUnit.SECONDS)
                 .subscribe({
                     movieResponse.postValue(it.toMovieResponseData())
+                    Log.d("vvvvvvvv",it.results[0].vote_average.toString())
                 }, {
                     Log.d("getMovie", it.toString())
                     showMessage(it.toString())

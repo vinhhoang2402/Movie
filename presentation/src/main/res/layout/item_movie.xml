@@ -16,7 +16,7 @@
         android:id="@+id/ct_movie"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
         android:padding="4dp">
 
         <androidx.cardview.widget.CardView
@@ -30,8 +30,8 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="150dp"
-                android:layout_height="200dp"
+                android:layout_width="100dp"
+                android:layout_height="150dp"
                 android:background="@drawable/border_text"
                 android:contentDescription="@string/todo"
                 android:scaleType="centerCrop" />
@@ -41,8 +41,7 @@
             android:id="@+id/title"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
             android:ellipsize="end"
             android:hint="@string/title"
             android:maxLines="1"
@@ -53,15 +52,14 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_image"
-            app:layout_constraintTop_toTopOf="@id/cv_image"
-            tools:ignore="RtlSymmetry" />
+            app:layout_constraintTop_toTopOf="@id/cv_image" />
 
         <TextView
             android:id="@+id/time"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:hint="@string/time"
             android:textColor="@color/White"
             android:textColorHint="@color/White"
@@ -75,8 +73,8 @@
             android:id="@+id/des"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="4dp"
             android:ellipsize="end"
             android:maxLines="5"
             android:paddingEnd="10dp"
@@ -84,25 +82,27 @@
             android:textColor="#fff"
             android:textColorHint="@color/White"
             android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/rating"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/cv_image"
             app:layout_constraintTop_toBottomOf="@id/time"
             tools:ignore="RtlSymmetry" />
 
-        <TextView
-            android:id="@+id/review"
-            android:layout_width="0dp"
+        <androidx.appcompat.widget.AppCompatRatingBar
+            android:id="@+id/rating"
+            android:rating="@{movie.vote_average}"
+            android:stepSize="0.5"
+            android:numStars="10"
+            style="@android:style/Widget.Material.RatingBar.Small"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:hint="@string/review"
-            android:textColor="@color/White"
-            android:textColorHint="@color/White"
-            android:textSize="14sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/cv_image"
-            app:layout_constraintTop_toBottomOf="@id/des" />
+            android:layout_marginStart="8dp"
+            android:progressTint="@color/Yellow"
+            android:progressBackgroundTint="@color/Aqua"
+            android:layout_marginTop="4dp"
+            app:layout_constraintBottom_toBottomOf="@id/cv_image"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@id/cv_image" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

@@ -46,6 +46,7 @@ dependencies {
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.0.1"
     implementation 'com.facebook.shimmer:shimmer:0.1.0@aar'
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
+    implementation 'me.zhanghai.android.materialratingbar:library:1.4.0'
 
     implementation rxJava2
     implementation rxAndroid2

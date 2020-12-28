@@ -11,7 +11,7 @@
         android:id="@+id/ct_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/Black"
+        android:background="@color/DarkSlateGray"
         android:paddingTop="10dp"
         tools:context=".ui.home.HomeFragment">
 
@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginEnd="10dp"
-            android:text="Search"
+            android:text="Movie"
             android:textColor="@color/White"
             android:textSize="30sp"
             android:textStyle="bold"
@@ -40,7 +40,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/txt_search"
-            app:queryHint="Tim kiem"
+            app:queryHint="Search"
             app:searchHintIcon="@null" />
 
         <TextView
@@ -54,29 +54,20 @@
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/search_view" />
-        <com.facebook.shimmer.ShimmerFrameLayout
-            android:id="@+id/ct_shimmer_home"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
-            android:layout_width="match_parent"
-            android:layout_height="0dp">
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <include
-                    layout="@layout/shimmer_home_placeholder_layout"/>
-                <include
-                    layout="@layout/shimmer_home_placeholder_layout"/>
-                <include
-                    layout="@layout/shimmer_home_placeholder_layout"/>
-            </LinearLayout>
-        </com.facebook.shimmer.ShimmerFrameLayout>
 
         <androidx.recyclerview.widget.RecyclerView
-            android:visibility="gone"
+            android:id="@+id/rv_popular"
+            android:layout_width="match_parent"
+            android:layout_height="150dp"
+            android:layout_margin="10dp"
+            android:minHeight="200dp"
+            app:layout_constraintBottom_toTopOf="@id/rv_movie"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.526"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/title" />
+
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -85,7 +76,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintTop_toBottomOf="@id/rv_popular"
             tools:listitem="@layout/item_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -38,6 +38,7 @@ class HomeFragment : Fragment() {
 
     private val onClick: (MovieData) -> Unit = {
         val bundle = bundleOf("movie" to it)
+        Log.d("bbbbbbb",it.vote_average.toString())
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 
@@ -48,8 +49,8 @@ class HomeFragment : Fragment() {
         binding.rvMovie.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-            binding.ctShimmerHome.stopShimmerAnimation()
-            binding.ctShimmerHome.visibility=View.GONE
+//            binding.ctShimmerHome.stopShimmerAnimation()
+//            binding.ctShimmerHome.visibility=View.GONE
             binding.rvMovie.visibility=View.VISIBLE
             list.clear()
             list.addAll(it.movies)
@@ -115,11 +116,11 @@ class HomeFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        binding.ctShimmerHome.startShimmerAnimation()
+//        binding.ctShimmerHome.startShimmerAnimation()
     }
 
     override fun onPause() {
-        binding.ctShimmerHome.stopShimmerAnimation()
+       // binding.ctShimmerHome.stopShimmerAnimation()
         super.onPause()
     }
 }

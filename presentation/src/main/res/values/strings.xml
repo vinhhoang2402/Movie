@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Movie</string>
     <string name="des">The work of billionaire tech CEO Donovan Chalmers is so valuable that he hires mercenaries to protect it, and a terrorist group kidnaps his daughter just to get it.</string>
-    <string name="title">The SpongeBob Movie: Sponge on the Run</string>
+    <string name="title">The SpongeBob</string>
 
     <string name="hello_blank_fragment">Hello detail fragment</string>
     <string name="reviews">Review</string>

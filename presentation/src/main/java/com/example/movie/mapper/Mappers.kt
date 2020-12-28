@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview)
+fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview,this.vote_average)
 
 fun MovieVideoEntity.toMovieVideo()=MovieVideo(
     this.id,
