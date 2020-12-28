@@ -10,10 +10,7 @@ import com.example.datasource.RemoteMovieDataResource
 import com.example.db.MovieDatabase
 import com.example.domain.repository.ConnectionRepository
 import com.example.domain.repository.MovieRepository
-import com.example.domain.usecase.GetConnectionStatusUseCase
-import com.example.domain.usecase.GetMovieDetailUseCase
-import com.example.domain.usecase.GetMovieUseCase
-import com.example.domain.usecase.GetMovieVideoUseCase
+import com.example.domain.usecase.*
 import com.example.repository.MovieConnectionRepositoryImp
 import com.example.repository.MovieRepositoryImp
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -24,6 +21,15 @@ object Injector {
     @Synchronized
     fun getMovieUseCase(context: Context): GetMovieUseCase {
         return GetMovieUseCase(
+            getMovieRepository(context),
+            AndroidSchedulers.mainThread(),
+            Schedulers.io()
+        )
+    }
+
+    @Synchronized
+    fun getMovieRatingUseCase(context: Context): GetMovieRatingUseCase {
+        return GetMovieRatingUseCase(
             getMovieRepository(context),
             AndroidSchedulers.mainThread(),
             Schedulers.io()

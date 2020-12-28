@@ -37,6 +37,7 @@ class MainActivity : AppCompatActivity() {
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
         movieViewModel.getMovie()
+        movieViewModel.getMovieRating()
         movieViewModel.video.observe(this, Observer {
             Log.d("video", "bbbbb"+it.toString())
         })
@@ -44,6 +45,9 @@ class MainActivity : AppCompatActivity() {
         movieViewModel.status.observe(this, Observer {
 
             Toast.makeText(this, "connect $it", Toast.LENGTH_SHORT).show()
+        })
+        movieViewModel.movieRating.observe(this, Observer {
+            Log.d("rating",it.toString())
         })
     }
 

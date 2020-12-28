@@ -8,6 +8,7 @@ import io.reactivex.Single
 
 interface MovieRepository {
     fun getMovie(): Single<MovieResponseEntity>
+    fun getMovieRating(): Single<MovieResponseEntity>
     fun getMovieDetail(id: Int): Single<MovieDetailResponseEntity>
     fun getMovieVideo(id: Int): Single<MovieVideoEntityReponse>
 }

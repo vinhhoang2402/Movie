@@ -9,6 +9,7 @@ import io.reactivex.Single
 
 interface RemoteMovieDataResource {
     fun getMovie(): Single<MovieResponseEntity>
+    fun getMovieRating(): Single<MovieResponseEntity>
     fun getMovieDetail(idMovie: Int): Single<MovieDetailResponseEntity>
     fun getMovieVideo(idMovie: Int): Single<MovieVideoEntityReponse>
 }

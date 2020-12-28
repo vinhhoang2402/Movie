@@ -12,6 +12,7 @@ class MovieViewModelFactory(private val context: Context) : ViewModelProvider.Ne
             return MovieViewModel(
                 Injector.getMovieConnectUseCase(context),
                 Injector.getMovieUseCase(context),
+                Injector.getMovieRatingUseCase(context),
                 Injector.getMovieDetailUseCase(context),
                 Injector.getMovieVideoUseCase(context)
             ) as T

@@ -17,6 +17,13 @@ interface MovieAPI {
         @Query("page") page: Int
     ): Single<MovieResponseData>
 
+    @GET("top_rated")
+    fun getMovieRating(
+        @Query("api_key") apiKey: String,
+        @Query("language") language: String,
+        @Query("page") page: Int
+    ): Single<MovieResponseData>
+
     @GET("{id_movie}/reviews")
     fun getMovieDetail(
         @Path("id_movie") movieId: Int,

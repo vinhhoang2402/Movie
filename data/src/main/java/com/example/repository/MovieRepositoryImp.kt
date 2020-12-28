@@ -18,6 +18,7 @@ class MovieRepositoryImp(
     private fun remoteDataResource() = remoteMovieDataResource.getMovie().doOnSuccess {
         saveMovieLocal(it)
     }
+    private fun remoteDataRatingResource() = remoteMovieDataResource.getMovieRating()
 
     private fun remoteVideoDataSource(id:Int) = remoteMovieDataResource.getMovieVideo(id)
 
@@ -30,6 +31,10 @@ class MovieRepositoryImp(
         } else {
             return localMovieDataResource.getMovieLocalData()
         }
+    }
+
+    override fun getMovieRating(): Single<MovieResponseEntity> {
+        return remoteDataRatingResource()
     }
 
     private fun remoteDetailDataResource(id: Int) =

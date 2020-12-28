@@ -5,12 +5,14 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.GridLayout
 import android.widget.SearchView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movie.R
 import com.example.movie.databinding.FragmentHomeBinding
@@ -44,6 +46,7 @@ class HomeFragment : Fragment() {
 
     private fun initControls() {
         val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
+
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
@@ -55,6 +58,21 @@ class HomeFragment : Fragment() {
             list.clear()
             list.addAll(it.movies)
             adapter.set(it.movies)
+        })
+        //rating
+        val adapterRating: MovieRatingAdapter = MovieRatingAdapter(requireContext(), onClick)
+        binding.rvPopular.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        binding.rvPopular.setHasFixedSize(true)
+        binding.rvPopular.adapter = adapterRating
+        binding.lifecycleOwner = viewLifecycleOwner
+        movieViewModel.movieRating.observe(viewLifecycleOwner, Observer {
+            Log.d("ratingggggggg",it.toString())
+//            binding.ctShimmerHome.stopShimmerAnimation()
+//            binding.ctShimmerHome.visibility=View.GONE
+//            binding.rvPopular.visibility=View.VISIBLE
+            list.clear()
+            list.addAll(it.movies)
+            adapterRating.set(it.movies)
         })
     }
 

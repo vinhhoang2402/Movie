@@ -12,15 +12,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/DarkSlateGray"
-        android:paddingTop="10dp"
+        android:padding="6dp"
         tools:context=".ui.home.HomeFragment">
 
         <TextView
             android:id="@+id/txt_search"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:text="Movie"
             android:textColor="@color/White"
             android:textSize="30sp"
@@ -32,7 +30,7 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_margin="10dp"
+            android:layout_marginTop="4dp"
             android:background="@drawable/border_search_view"
             android:padding="10dp"
             android:queryHint="Movie"
@@ -44,11 +42,11 @@
             app:searchHintIcon="@null" />
 
         <TextView
+            android:layout_marginTop="4dp"
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:text="Popular"
+            android:text="Top Rating"
             android:textColor="@color/White"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -56,27 +54,39 @@
             app:layout_constraintTop_toBottomOf="@id/search_view" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="4dp"
             android:id="@+id/rv_popular"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:layout_margin="10dp"
+            android:layout_height="wrap_content"
             android:minHeight="200dp"
-            app:layout_constraintBottom_toTopOf="@id/rv_movie"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.526"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/title" />
 
+        <TextView
+            android:layout_marginTop="4dp"
+            android:id="@+id/popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Popular"
+            android:textColor="@color/White"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@id/rv_movie"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rv_popular" />
+
         <androidx.recyclerview.widget.RecyclerView
+            android:layout_marginTop="4dp"
             android:id="@+id/rv_movie"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_margin="10dp"
             android:minHeight="500dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rv_popular"
+            app:layout_constraintTop_toBottomOf="@id/popular"
             tools:listitem="@layout/item_movie" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
