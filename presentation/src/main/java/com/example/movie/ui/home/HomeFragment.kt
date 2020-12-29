@@ -59,6 +59,26 @@ class HomeFragment : Fragment() {
             list.addAll(it.movies)
             adapter.set(it.movies)
         })
+
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentHomeBinding.inflate(inflater)
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initControlsRating()
+        initControls()
+        onClick
+        searchMovie()
+    }
+
+    private fun initControlsRating() {
         //rating
         val adapterRating: MovieRatingAdapter = MovieRatingAdapter(requireContext(), onClick)
         binding.rvPopular.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
@@ -74,21 +94,6 @@ class HomeFragment : Fragment() {
             list.addAll(it.movies)
             adapterRating.set(it.movies)
         })
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentHomeBinding.inflate(inflater)
-        return binding.root
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        initControls()
-        onClick
-        searchMovie()
     }
 
     private fun searchMovie() {
