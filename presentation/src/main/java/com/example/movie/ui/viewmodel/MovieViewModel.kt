@@ -58,7 +58,6 @@ class MovieViewModel(
                 .doFinally {
                     showLoading(false)
                 }
-                .delay(2,TimeUnit.SECONDS)
                 .subscribe({
                     movieResponse.postValue(it.toMovieResponseData())
                     Log.d("vvvvvvvv",it.results[0].vote_average.toString())
@@ -77,7 +76,6 @@ class MovieViewModel(
                 .doFinally {
                     showLoading(false)
                 }
-                .delay(2,TimeUnit.SECONDS)
                 .subscribe({
                     movieRatingResponse.postValue(it.toMovieResponseData())
                 }, {

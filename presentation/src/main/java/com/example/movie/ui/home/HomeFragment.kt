@@ -54,7 +54,7 @@ class HomeFragment : Fragment() {
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
 //            binding.ctShimmerHome.stopShimmerAnimation()
 //            binding.ctShimmerHome.visibility=View.GONE
-            binding.rvMovie.visibility=View.VISIBLE
+//            binding.rvMovie.visibility=View.VISIBLE
             list.clear()
             list.addAll(it.movies)
             adapter.set(it.movies)

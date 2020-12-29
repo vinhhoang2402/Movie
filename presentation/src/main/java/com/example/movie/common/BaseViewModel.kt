@@ -11,11 +11,11 @@ open class BaseViewModel : ViewModel(){
     val eventMessage = MutableLiveData<Event<String>>()
     val composite = CompositeDisposable()
     fun showLoading(value: Boolean) {
-        eventLoading.value = Event(value)
+        eventLoading.postValue(Event(value))
     }
 
     fun showMessage(message: String) {
-        eventMessage.value = Event(message)
+        eventMessage.postValue(Event(message))
     }
 
     override fun onCleared() {
