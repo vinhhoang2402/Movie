@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity() {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN
             )
         }
+        Log.d("vinhhoang","vinhhoang")
         setContentView(R.layout.activity_main)
         val movieViewModelFactory = MovieViewModelFactory(this)
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
