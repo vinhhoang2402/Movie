@@ -1,0 +1,488 @@
+Index: data/src/main/java/com/example/db/dao/MovieDAO.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.db.dao\r\n\r\nimport androidx.room.Dao\r\nimport androidx.room.Insert\r\nimport androidx.room.OnConflictStrategy\r\nimport androidx.room.Query\r\nimport com.example.data.MovieData\r\n\r\n@Dao\r\ninterface MovieDAO {\r\n    @Insert(onConflict = OnConflictStrategy.REPLACE)\r\n    fun saveMovie(movieData: MovieData): Long\r\n\r\n    @Query(\"SELECT * FROM MovieTable\")\r\n    fun getMovie(): List<MovieData>\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- data/src/main/java/com/example/db/dao/MovieDAO.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/db/dao/MovieDAO.kt	(date 1609072499301)
+@@ -4,14 +4,14 @@
+ import androidx.room.Insert
+ import androidx.room.OnConflictStrategy
+ import androidx.room.Query
+-import com.example.data.MovieData
++import com.example.data.MovieResponseData
+ 
+ @Dao
+ interface MovieDAO {
+     @Insert(onConflict = OnConflictStrategy.REPLACE)
+-    fun saveMovie(movieData: MovieData): Long
++    fun saveMovie(movieData: MovieResponseData.MovieData): Long
+ 
+     @Query("SELECT * FROM MovieTable")
+-    fun getMovie(): List<MovieData>
++    fun getMovie(): MovieResponseData
+ 
+ }
+\ No newline at end of file
+Index: data/src/main/java/com/example/db/MovieDatabase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.db\r\n\r\nimport android.content.Context\r\nimport androidx.room.Database\r\nimport androidx.room.Room\r\nimport androidx.room.RoomDatabase\r\nimport androidx.room.TypeConverters\r\nimport com.example.data.MovieData\r\nimport com.example.data.MovieDetailData\r\nimport com.example.db.dao.MovieDAO\r\nimport com.example.db.dao.MovieDetailDAO\r\n\r\n@Database(entities = [MovieData::class, MovieDetailData::class], version = 3, exportSchema = false)\r\n@TypeConverters(MovieDetailData.MovieDetailTypeConverter::class)\r\nabstract class MovieDatabase : RoomDatabase() {\r\n    abstract fun getMovieDAO(): MovieDAO\r\n    abstract fun getMovieDetailDAO(): MovieDetailDAO\r\n\r\n    companion object {\r\n        private var instance: MovieDatabase? = null\r\n        fun getInstance(context: Context): MovieDatabase {\r\n            synchronized(this) {\r\n                if (instance == null) {\r\n                    instance = Room.databaseBuilder(\r\n                        context.applicationContext,\r\n                        MovieDatabase::class.java,\r\n                        MovieDatabase::class.java.name\r\n                    ).allowMainThreadQueries().build()\r\n                }\r\n                return instance as MovieDatabase\r\n            }\r\n        }\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- data/src/main/java/com/example/db/MovieDatabase.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/db/MovieDatabase.kt	(date 1609071878346)
+@@ -5,12 +5,12 @@
+ import androidx.room.Room
+ import androidx.room.RoomDatabase
+ import androidx.room.TypeConverters
+-import com.example.data.MovieData
+ import com.example.data.MovieDetailData
++import com.example.data.MovieResponseData
+ import com.example.db.dao.MovieDAO
+ import com.example.db.dao.MovieDetailDAO
+ 
+-@Database(entities = [MovieData::class, MovieDetailData::class], version = 3, exportSchema = false)
++@Database(entities = [MovieResponseData.MovieData::class, MovieDetailData::class], version = 1, exportSchema = false)
+ @TypeConverters(MovieDetailData.MovieDetailTypeConverter::class)
+ abstract class MovieDatabase : RoomDatabase() {
+     abstract fun getMovieDAO(): MovieDAO
+Index: data/src/main/java/com/example/mapper/Mappers.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.mapper\r\n\r\nimport android.util.Log\r\nimport com.example.data.*\r\nimport com.example.domain.entity.*\r\n\r\n//remote\r\nfun MovieData.toMovieEntity() =\r\n    MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview)\r\n\r\nfun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {\r\n    it.toMovieEntity()\r\n})\r\n\r\n//movieDetail\r\nfun MovieDetailData.AuthorDetails.toAuthorDetails() = MovieDetailEntity.AuthorDetails(\r\n    this.name,\r\n    this.username, this.avatar_path, this.rating\r\n)\r\n\r\nfun MovieDetailData.toMovieDetailEntity() = MovieDetailEntity(\r\n    this.id,\r\n    this.author,\r\n    this.author_details?.toAuthorDetails(),\r\n    this.content,\r\n    this.created_at,\r\n    this.updated_at,\r\n    this.url\r\n)\r\n\r\nfun MovieDetailResponseData.toMovieDetailResponseEntity() =\r\n    MovieDetailResponseEntity(this.id, this.results.map {\r\n        it.toMovieDetailEntity()\r\n    })\r\n\r\n\r\nfun MovieVideoData.toMovieVideo()= MovieVideoEntity(\r\n    this.id,this.iso31661,this.iso6391,this.key,\r\n    this.name,this.site,this.size,this.type\r\n)\r\nfun MovieVideoDataReponse.toMovieVideoResponseEntity()= MovieVideoEntityReponse(\r\n    this.results.map {\r\n        Log.d(\"oooo\",it.toMovieVideo().toString())\r\n        it.toMovieVideo()\r\n    }\r\n)\r\n\r\n//local\r\nfun MovieEntity.toMovieData() = MovieData(this.id, this.title, this.backdrop_path, this.overview)\r\n\r\n//movieDetail\r\nfun MovieDetailEntity.AuthorDetails.toAuthorDetails() = MovieDetailData.AuthorDetails(\r\n    this.name, this.username, this.avatar_path, this.rating\r\n)\r\n\r\nfun MovieDetailEntity.toMovieDetailData(movieId: Long) = MovieDetailData(\r\n    this.id,\r\n    movieId,\r\n    this.author,\r\n    this.author_details?.toAuthorDetails(),\r\n    this.content,\r\n    this.created_at,\r\n    this.updated_at,\r\n    this.url\r\n)\r\n\r\n\r\n\r\n\r\n\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- data/src/main/java/com/example/mapper/Mappers.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/mapper/Mappers.kt	(date 1609071475444)
+@@ -5,8 +5,8 @@
+ import com.example.domain.entity.*
+ 
+ //remote
+-fun MovieData.toMovieEntity() =
+-    MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview)
++fun MovieResponseData.MovieData.toMovieEntity() =
++    MovieResponseEntity.MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview)
+ 
+ fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
+     it.toMovieEntity()
+@@ -46,7 +46,10 @@
+ )
+ 
+ //local
+-fun MovieEntity.toMovieData() = MovieData(this.id, this.title, this.backdrop_path, this.overview)
++fun MovieResponseEntity.MovieEntity.toMovieData() =
++    MovieResponseData.MovieData(this.id.toLong(), this.title, this.backdrop_path, this.overview)
++
++
+ 
+ //movieDetail
+ fun MovieDetailEntity.AuthorDetails.toAuthorDetails() = MovieDetailData.AuthorDetails(
+Index: domain/src/main/java/com/example/domain/usecase/GetMovieVideoUseCase.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.domain.usecase\r\n\r\nimport com.example.domain.common.SingleParamUseCase\r\nimport com.example.domain.entity.MovieDetailResponseEntity\r\nimport com.example.domain.entity.MovieVideoEntity\r\nimport com.example.domain.entity.MovieVideoEntityReponse\r\nimport com.example.domain.repository.MovieRepository\r\nimport io.reactivex.Scheduler\r\nimport io.reactivex.Single\r\n\r\nclass GetMovieVideoUseCase(\r\n    private val movieRepository: MovieRepository,\r\n    uiThread: Scheduler,\r\n    executorThread: Scheduler\r\n): SingleParamUseCase<MovieVideoEntityReponse,Int>(\r\n    uiThread,executorThread\r\n) {\r\n    override fun create(id: Int): Single<MovieVideoEntityReponse> {\r\n        return movieRepository.getMovieVideo(id)\r\n    }\r\n\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- domain/src/main/java/com/example/domain/usecase/GetMovieVideoUseCase.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ domain/src/main/java/com/example/domain/usecase/GetMovieVideoUseCase.kt	(date 1609066200639)
+@@ -15,8 +15,8 @@
+ ): SingleParamUseCase<MovieVideoEntityReponse,Int>(
+     uiThread,executorThread
+ ) {
+-    override fun create(id: Int): Single<MovieVideoEntityReponse> {
+-        return movieRepository.getMovieVideo(id)
++    override fun create(idMovie: Int): Single<MovieVideoEntityReponse> {
++        return movieRepository.getMovieVideo(idMovie)
+     }
+ 
+ }
+\ No newline at end of file
+Index: data/src/main/java/com/example/datasource/LocalDataMovieImp.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.datasource\r\n\r\nimport android.util.Log\r\nimport com.example.db.MovieDatabase\r\nimport com.example.domain.entity.MovieDetailResponseEntity\r\nimport com.example.domain.entity.MovieResponseEntity\r\nimport com.example.mapper.toMovieData\r\nimport com.example.mapper.toMovieDetailData\r\nimport com.example.mapper.toMovieDetailEntity\r\n\r\nimport com.example.mapper.toMovieEntity\r\nimport io.reactivex.Single\r\n\r\nclass LocalDataMovieImp(\r\n    database: MovieDatabase\r\n) : LocalMovieDataResource {\r\n    private val dao = database.getMovieDAO()\r\n    private val daoDetail = database.getMovieDetailDAO()\r\n    override fun saveMovieLocalData(movieResponseEntity: MovieResponseEntity) {\r\n        movieResponseEntity.results.map {\r\n            Log.d(\"dataLocal\", it.toMovieData().toString())\r\n            dao.saveMovie(it.toMovieData())\r\n        }\r\n    }\r\n\r\n    override fun getMovieLocalData(): Single<MovieResponseEntity> {\r\n        Log.d(\"vvvvMovie\", \"it.toMovieEntity().toString()\")\r\n        return Single.just(\r\n            MovieResponseEntity(dao.getMovie().map {\r\n                Log.d(\"vvvvMovie\", it.toMovieEntity().toString())\r\n                it.toMovieEntity()\r\n            })\r\n        )\r\n    }\r\n\r\n    override fun saveMovieDetailLocalData(movieDetailResponseEntity: MovieDetailResponseEntity) {\r\n        val movieId = movieDetailResponseEntity.id\r\n        movieDetailResponseEntity.results.forEach {\r\n            Log.d(\r\n                \"vvvvSaveDetail\",\r\n                daoDetail.saveMovieDetail(it.toMovieDetailData(movieId)).toString()\r\n            )\r\n            daoDetail.saveMovieDetail(it.toMovieDetailData(movieId))\r\n        }\r\n    }\r\n\r\n    override fun getMovieDetailLocalData(movieId: Long): Single<MovieDetailResponseEntity> {\r\n        return Single.just(\r\n            MovieDetailResponseEntity(movieId, daoDetail.getMovieDetail(movieId).map {\r\n                it.toMovieDetailEntity()\r\n            })\r\n        )\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- data/src/main/java/com/example/datasource/LocalDataMovieImp.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/datasource/LocalDataMovieImp.kt	(date 1609071475382)
+@@ -18,7 +18,7 @@
+     private val daoDetail = database.getMovieDetailDAO()
+     override fun saveMovieLocalData(movieResponseEntity: MovieResponseEntity) {
+         movieResponseEntity.results.map {
+-            Log.d("dataLocal", it.toMovieData().toString())
++            Log.d("dataLocal", it.toString())
+             dao.saveMovie(it.toMovieData())
+         }
+     }
+@@ -26,7 +26,7 @@
+     override fun getMovieLocalData(): Single<MovieResponseEntity> {
+         Log.d("vvvvMovie", "it.toMovieEntity().toString()")
+         return Single.just(
+-            MovieResponseEntity(dao.getMovie().map {
++            MovieResponseEntity(dao.getMovie().results.map {
+                 Log.d("vvvvMovie", it.toMovieEntity().toString())
+                 it.toMovieEntity()
+             })
+Index: data/src/main/java/com/example/data/MovieResponseData.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.data\r\n\r\ndata class MovieResponseData(\r\n    var results: List<MovieData> = listOf()\r\n)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- data/src/main/java/com/example/data/MovieResponseData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/data/MovieResponseData.kt	(date 1609073256438)
+@@ -1,5 +1,23 @@
+ package com.example.data
+ 
++import androidx.room.ColumnInfo
++import androidx.room.Entity
++import androidx.room.PrimaryKey
++import java.io.Serializable
++
+ data class MovieResponseData(
+     var results: List<MovieData> = listOf()
+-)
+\ No newline at end of file
++){
++    @Entity(tableName = "MovieTable")
++    data class MovieData(
++        @PrimaryKey
++        @ColumnInfo(name = "id")
++        val id: Long = 0L,
++        @ColumnInfo(name = "title")
++        var title: String,
++        @ColumnInfo(name = "backdrop_path")
++        var backdrop_path: String,
++        @ColumnInfo(name = "overview")
++        var overview: String
++    ):Serializable
++}
+\ No newline at end of file
+Index: presentation/src/main/java/com/example/movie/ui/detail/DetailFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.movie.ui.detail\r\n\r\nimport android.content.DialogInterface\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.OrientationEventListener\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.Toast\r\nimport androidx.appcompat.app.AlertDialog\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.lifecycle.Lifecycle\r\nimport androidx.lifecycle.Observer\r\nimport androidx.lifecycle.ViewModelProvider\r\nimport androidx.navigation.fragment.findNavController\r\nimport com.example.common.DataConstants\r\nimport com.example.movie.databinding.FragmentDetailBinding\r\nimport com.example.movie.model.MovieData\r\nimport com.example.movie.ui.viewmodel.MovieViewModel\r\nimport com.example.movie.ui.viewmodel.MovieViewModelFactory\r\nimport com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants\r\nimport com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer\r\nimport com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener\r\nimport kotlinx.android.synthetic.main.fragment_detail.*\r\n\r\n\r\nclass DetailFragment : Fragment() {\r\n    private lateinit var movieViewModel: MovieViewModel\r\n    private lateinit var binding: FragmentDetailBinding\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        val movieViewModelFactory = MovieViewModelFactory(requireContext())\r\n        movieViewModel = ViewModelProvider(this, movieViewModelFactory)\r\n            .get(MovieViewModel::class.java)\r\n        Log.d(\"viewModelTest3\", movieViewModel.toString())\r\n    }\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        binding = FragmentDetailBinding.inflate(inflater, container, false)\r\n        binding.viewmodel = movieViewModel\r\n        binding.lifecycleOwner = viewLifecycleOwner\r\n        lifecycle.addObserver(binding.youtubePlayerView)\r\n        return binding.root\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        val movie = arguments?.getSerializable(\"movie\") as MovieData\r\n        movieViewModel.getMovieDetail(movie.id.toInt())\r\n        movieViewModel.getMovieVideo(movie.id.toInt())\r\n        movieViewModel.video.observe(viewLifecycleOwner, Observer {\r\n            binding.youtubePlayerView.initialize(object : AbstractYouTubePlayerListener() {\r\n\r\n                override fun onReady(youTubePlayer: YouTubePlayer) {\r\n                    if (lifecycle.currentState==Lifecycle.State.RESUMED){\r\n                        Log.d(\"ready \",\"load video\")\r\n                        youTubePlayer.loadVideo(it.video[0].key,2f)\r\n                    }else{\r\n                        Log.d(\"ready \",\"cue video\")\r\n                        youTubePlayer.cueVideo(it.video[0].key,0f)\r\n                    }\r\n\r\n                }\r\n            },true)\r\n        })\r\n\r\n        movieViewModel.movieDetail.observe(viewLifecycleOwner, Observer {\r\n            Log.d(\"detail2222\", it.movieDetails.size.toString())\r\n            if (it.movieDetails.isNotEmpty()) {\r\n                bind(movie)\r\n            } else {\r\n                //binding.ctDetail.visibility = View.GONE\r\n                showDialog()\r\n            }\r\n        })\r\n        binding.back.setOnClickListener {\r\n            findNavController().navigateUp()\r\n        }\r\n    }\r\n\r\n    private fun bind(movie: MovieData) {\r\n//        Glide.with(requireActivity())\r\n//            .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))\r\n//            .into(binding.poster)\r\n    }\r\n\r\n\r\n    private fun showDialog() {\r\n        val builder = AlertDialog.Builder(requireContext())\r\n        with(builder)\r\n        {\r\n            setTitle(\"Alert !\")\r\n            setMessage(\"404 Not found\")\r\n            setPositiveButton(\"OK\", DialogInterface.OnClickListener { dialogInterface, i ->\r\n                dialogInterface.dismiss()\r\n                findNavController().navigateUp()\r\n            })\r\n            show()\r\n        }\r\n    }\r\n\r\n    override fun onDestroy() {\r\n        super.onDestroy()\r\n        binding.youtubePlayerView.release()\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/java/com/example/movie/ui/detail/DetailFragment.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/ui/detail/DetailFragment.kt	(date 1609066891502)
+@@ -4,25 +4,20 @@
+ import android.os.Bundle
+ import android.util.Log
+ import android.view.LayoutInflater
+-import android.view.OrientationEventListener
+ import android.view.View
+ import android.view.ViewGroup
+-import android.widget.Toast
+ import androidx.appcompat.app.AlertDialog
+ import androidx.fragment.app.Fragment
+ import androidx.lifecycle.Lifecycle
+ import androidx.lifecycle.Observer
+ import androidx.lifecycle.ViewModelProvider
+ import androidx.navigation.fragment.findNavController
+-import com.example.common.DataConstants
+ import com.example.movie.databinding.FragmentDetailBinding
+-import com.example.movie.model.MovieData
++import com.example.movie.model.MovieResponseData
+ import com.example.movie.ui.viewmodel.MovieViewModel
+ import com.example.movie.ui.viewmodel.MovieViewModelFactory
+-import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.PlayerConstants
+ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.YouTubePlayer
+ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.AbstractYouTubePlayerListener
+-import kotlinx.android.synthetic.main.fragment_detail.*
+ 
+ 
+ class DetailFragment : Fragment() {
+@@ -50,7 +45,7 @@
+ 
+     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+         super.onViewCreated(view, savedInstanceState)
+-        val movie = arguments?.getSerializable("movie") as MovieData
++        val movie = arguments?.getSerializable("movie") as MovieResponseData.MovieData
+         movieViewModel.getMovieDetail(movie.id.toInt())
+         movieViewModel.getMovieVideo(movie.id.toInt())
+         movieViewModel.video.observe(viewLifecycleOwner, Observer {
+@@ -83,7 +78,7 @@
+         }
+     }
+ 
+-    private fun bind(movie: MovieData) {
++    private fun bind(movie: MovieResponseData.MovieData) {
+ //        Glide.with(requireActivity())
+ //            .load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
+ //            .into(binding.poster)
+Index: domain/src/main/java/com/example/domain/entity/MovieEntity.kt
+===================================================================
+--- domain/src/main/java/com/example/domain/entity/MovieEntity.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ domain/src/main/java/com/example/domain/entity/MovieEntity.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
+@@ -1,8 +0,0 @@
+-package com.example.domain.entity
+-
+-data class MovieEntity(
+-    val id: Long = 0,
+-    val title: String = "",
+-    val backdrop_path: String = "",
+-    val overview: String
+-)
+\ No newline at end of file
+Index: data/src/main/java/com/example/data/MovieData.kt
+===================================================================
+--- data/src/main/java/com/example/data/MovieData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ data/src/main/java/com/example/data/MovieData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
+@@ -1,13 +0,0 @@
+-package com.example.data
+-
+-import androidx.room.Entity
+-import androidx.room.PrimaryKey
+-
+-@Entity(tableName = "MovieTable")
+-data class MovieData(
+-    @PrimaryKey
+-    val id: Long = 0L,
+-    var title: String,
+-    var backdrop_path: String,
+-    var overview: String
+-)
+\ No newline at end of file
+Index: presentation/src/main/java/com/example/movie/model/MovieData.kt
+===================================================================
+--- presentation/src/main/java/com/example/movie/model/MovieData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/model/MovieData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
+@@ -1,10 +0,0 @@
+-package com.example.movie.model
+-
+-import java.io.Serializable
+-
+-data class MovieData(
+-    val id: Long = 0,
+-    val title: String = "",
+-    val backdrop_path: String = "",
+-    val overview: String = ""
+-) : Serializable
+Index: presentation/src/main/res/layout/fragment_detail.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <data>\r\n        <import type=\"android.view.View\"/>\r\n        <variable\r\n            name=\"model\"\r\n            type=\"com.example.movie.model.MovieData\" />\r\n        <variable\r\n            name=\"viewmodel\"\r\n            type=\"com.example.movie.ui.viewmodel.MovieViewModel\" />\r\n    </data>\r\n\r\n    <androidx.constraintlayout.motion.widget.MotionLayout\r\n        android:id=\"@+id/ct_detail\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"match_parent\"\r\n        android:background=\"@color/Black\"\r\n        tools:context=\".ui.detail.DetailFragment\"\r\n        app:layoutDescription=\"@xml/fragment_detail_scene\">\r\n\r\n\r\n        <com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView\r\n            android:id=\"@+id/youtube_player_view\"\r\n            android:layout_width=\"match_parent\"\r\n            app:enableAutomaticInitialization=\"false\"\r\n            android:layout_height=\"400dp\" />\r\n        <ImageView\r\n            android:id=\"@+id/back\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"30dp\"\r\n            android:src=\"@drawable/ic_baseline_keyboard_backspace_24\"\r\n            app:layout_constraintStart_toStartOf=\"@id/youtube_player_view\"\r\n            app:layout_constraintTop_toTopOf=\"@id/youtube_player_view\" />\r\n\r\n        <ImageView\r\n            android:id=\"@id/image\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"30dp\"\r\n            android:layout_marginEnd=\"10dp\"\r\n            android:src=\"@drawable/ic_baseline_system_update_alt_24\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"@id/youtube_player_view\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/name_movie\"\r\n            android:text=\"@{model.title}\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"20dp\"\r\n            android:layout_marginEnd=\"40dp\"\r\n            android:layout_marginBottom=\"80dp\"\r\n            android:ellipsize=\"marquee\"\r\n            android:singleLine=\"true\"\r\n            android:textColor=\"@color/White\"\r\n            android:textSize=\"20sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintBottom_toBottomOf=\"@id/youtube_player_view\"\r\n            app:layout_constraintEnd_toStartOf=\"@id/year\"\r\n            app:layout_constraintStart_toStartOf=\"@id/youtube_player_view\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/year\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginEnd=\"20dp\"\r\n            android:textColor=\"@color/White\"\r\n            android:textSize=\"14sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintBottom_toBottomOf=\"@id/name_movie\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toEndOf=\"@id/name_movie\"\r\n            app:layout_constraintTop_toTopOf=\"@id/name_movie\" />\r\n        <ImageView\r\n            app:layout_constraintBottom_toBottomOf=\"@id/name_movie\"\r\n            android:src=\"@drawable/ic_baseline_navigation_24\"\r\n            app:layout_constraintEnd_toEndOf=\"@id/name_movie\"\r\n            android:id=\"@+id/directional\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"/>\r\n\r\n\r\n        <TextView\r\n            android:alpha=\"0\"\r\n            android:id=\"@+id/dess\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginEnd=\"10dp\"\r\n            android:text=\"@string/reviews\"\r\n            android:textColor=\"@color/White\"\r\n            android:textSize=\"20sp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/youtube_player_view\" />\r\n\r\n        <ScrollView\r\n            android:id=\"@+id/scroll_des\"\r\n            android:layout_width=\"match_parent\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:paddingStart=\"10dp\"\r\n            android:paddingEnd=\"10dp\"\r\n            android:paddingBottom=\"20dp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/dess\">\r\n\r\n            <TextView\r\n                android:id=\"@+id/des\"\r\n                android:layout_width=\"match_parent\"\r\n                android:layout_height=\"wrap_content\"\r\n                android:lineSpacingExtra=\"2dp\"\r\n                android:scrollbars=\"vertical\"\r\n                android:textColor=\"@color/White\"\r\n                android:textSize=\"16sp\" />\r\n        </ScrollView>\r\n    </androidx.constraintlayout.motion.widget.MotionLayout>\r\n\r\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/res/layout/fragment_detail.xml	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/res/layout/fragment_detail.xml	(date 1609066999308)
+@@ -7,7 +7,7 @@
+         <import type="android.view.View"/>
+         <variable
+             name="model"
+-            type="com.example.movie.model.MovieData" />
++            type="com.example.movie.model.MovieResponseData.MovieData" />
+         <variable
+             name="viewmodel"
+             type="com.example.movie.ui.viewmodel.MovieViewModel" />
+Index: domain/src/main/java/com/example/domain/entity/MovieResponseEntity.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.domain.entity\r\n\r\ndata class MovieResponseEntity(\r\n    val results: List<MovieEntity> = listOf()\r\n)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- domain/src/main/java/com/example/domain/entity/MovieResponseEntity.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ domain/src/main/java/com/example/domain/entity/MovieResponseEntity.kt	(date 1609065050770)
+@@ -2,4 +2,11 @@
+ 
+ data class MovieResponseEntity(
+     val results: List<MovieEntity> = listOf()
+-)
+\ No newline at end of file
++){
++    data class MovieEntity(
++        val id: Long = 0,
++        val title: String = "",
++        val backdrop_path: String = "",
++        val overview: String
++    )
++}
+\ No newline at end of file
+Index: presentation/src/main/res/layout/item_movie.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<layout xmlns:android=\"http://schemas.android.com/apk/res/android\"\r\n    xmlns:app=\"http://schemas.android.com/apk/res-auto\"\r\n    xmlns:tools=\"http://schemas.android.com/tools\">\r\n\r\n    <data>\r\n\r\n        <import type=\"com.example.movie.model.MovieData\" />\r\n\r\n        <variable\r\n            name=\"movie\"\r\n            type=\"MovieData\" />\r\n    </data>\r\n\r\n    <androidx.constraintlayout.widget.ConstraintLayout\r\n        android:id=\"@+id/ct_movie\"\r\n        android:layout_width=\"match_parent\"\r\n        android:layout_height=\"wrap_content\"\r\n        android:layout_marginBottom=\"10dp\"\r\n        android:padding=\"4dp\">\r\n\r\n        <androidx.cardview.widget.CardView\r\n            android:id=\"@+id/cv_image\"\r\n            android:layout_width=\"wrap_content\"\r\n            android:layout_height=\"wrap_content\"\r\n            app:cardCornerRadius=\"4dp\"\r\n            app:layout_constraintBottom_toBottomOf=\"parent\"\r\n            app:layout_constraintStart_toStartOf=\"parent\"\r\n            app:layout_constraintTop_toTopOf=\"parent\">\r\n\r\n            <ImageView\r\n                android:id=\"@+id/image\"\r\n                android:layout_width=\"150dp\"\r\n                android:layout_height=\"200dp\"\r\n                android:background=\"@drawable/border_text\"\r\n                android:contentDescription=\"@string/todo\"\r\n                android:scaleType=\"centerCrop\" />\r\n        </androidx.cardview.widget.CardView>\r\n\r\n        <TextView\r\n            android:id=\"@+id/title\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:ellipsize=\"end\"\r\n            android:hint=\"@string/title\"\r\n            android:maxLines=\"1\"\r\n            android:paddingEnd=\"10dp\"\r\n            android:text=\"@{movie.title}\"\r\n            android:textColor=\"@color/White\"\r\n            android:textSize=\"20sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toEndOf=\"@id/cv_image\"\r\n            app:layout_constraintTop_toTopOf=\"@id/cv_image\"\r\n            tools:ignore=\"RtlSymmetry\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/time\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:hint=\"@string/time\"\r\n            android:textColor=\"@color/White\"\r\n            android:textColorHint=\"@color/White\"\r\n            android:textSize=\"14sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toEndOf=\"@id/cv_image\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/title\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/des\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:ellipsize=\"end\"\r\n            android:maxLines=\"5\"\r\n            android:paddingEnd=\"10dp\"\r\n            android:text=\"@{movie.overview}\"\r\n            android:textColor=\"#fff\"\r\n            android:textColorHint=\"@color/White\"\r\n            android:textSize=\"14sp\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toEndOf=\"@id/cv_image\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/time\"\r\n            tools:ignore=\"RtlSymmetry\" />\r\n\r\n        <TextView\r\n            android:id=\"@+id/review\"\r\n            android:layout_width=\"0dp\"\r\n            android:layout_height=\"wrap_content\"\r\n            android:layout_marginStart=\"10dp\"\r\n            android:layout_marginTop=\"10dp\"\r\n            android:hint=\"@string/review\"\r\n            android:textColor=\"@color/White\"\r\n            android:textColorHint=\"@color/White\"\r\n            android:textSize=\"14sp\"\r\n            android:textStyle=\"bold\"\r\n            app:layout_constraintEnd_toEndOf=\"parent\"\r\n            app:layout_constraintStart_toEndOf=\"@id/cv_image\"\r\n            app:layout_constraintTop_toBottomOf=\"@id/des\" />\r\n\r\n    </androidx.constraintlayout.widget.ConstraintLayout>\r\n</layout>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/res/layout/item_movie.xml	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/res/layout/item_movie.xml	(date 1609067036346)
+@@ -5,7 +5,7 @@
+ 
+     <data>
+ 
+-        <import type="com.example.movie.model.MovieData" />
++        <import type="com.example.movie.model.MovieResponseData.MovieData" />
+ 
+         <variable
+             name="movie"
+Index: presentation/src/main/java/com/example/movie/mapper/Mappers.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.movie.mapper\r\n\r\nimport android.util.Log\r\nimport com.example.data.MovieVideoData\r\nimport com.example.data.MovieVideoDataReponse\r\nimport com.example.domain.entity.*\r\nimport com.example.movie.model.*\r\nimport java.text.SimpleDateFormat\r\nimport java.util.*\r\n\r\n\r\nfun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview)\r\n\r\nfun MovieVideoEntity.toMovieVideo()=MovieVideo(\r\n    this.id,\r\n    this.iso31661,this.iso6391,this.key,this.name,this.site,this.size,this.type\r\n)\r\nfun MovieVideoEntityReponse.toMovieVideoPresentation()= MovieVideoResponse(\r\n    this.results.map {\r\n        it.toMovieVideo()\r\n    }\r\n)\r\nfun MovieResponseEntity.toMovieResponseData()=MovieResponseData(this.results.map {\r\n    it.toMovieData()\r\n})\r\nfun MovieDetailEntity.AuthorDetails.toAuthorDetails() = MovieDetail.AuthorDetails(\r\n    this.name,\r\n    this.username, this.avatar_path, this.rating\r\n)\r\n\r\nfun MovieDetailEntity.toMovieDetail() = MovieDetail(\r\n    this.author,\r\n    this.author_details!!.toAuthorDetails(),\r\n    this.content,\r\n    formatYear(this.created_at),\r\n    this.id,\r\n    this.updated_at,\r\n    this.url\r\n)\r\n\r\nprivate fun formatYear(year: String): String {\r\n    val newYear = year.substring(0, 4)\r\n    val formatter = SimpleDateFormat(\"yyyy\", Locale.getDefault())\r\n    val date = formatter.parse(newYear)\r\n    return formatter.format(date)\r\n}\r\n\r\nfun MovieDetailResponseEntity.toMovieDetailResponseData() =\r\n    MovieDetailResponseData(this.results.map {\r\n        it.toMovieDetail()\r\n    })\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/java/com/example/movie/mapper/Mappers.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/mapper/Mappers.kt	(date 1609066691522)
+@@ -1,15 +1,12 @@
+ package com.example.movie.mapper
+ 
+-import android.util.Log
+-import com.example.data.MovieVideoData
+-import com.example.data.MovieVideoDataReponse
+ import com.example.domain.entity.*
+ import com.example.movie.model.*
+ import java.text.SimpleDateFormat
+ import java.util.*
+ 
+ 
+-fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview)
++fun MovieResponseEntity.MovieEntity.toMovieData()= MovieResponseData.MovieData(this.id,this.title,this.backdrop_path,this.overview)
+ 
+ fun MovieVideoEntity.toMovieVideo()=MovieVideo(
+     this.id,
+Index: presentation/src/main/java/com/example/movie/model/MovieResponseData.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.movie.model\r\n\r\ndata class MovieResponseData(\r\n    val movies: List<MovieData> = listOf()\r\n)
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/java/com/example/movie/model/MovieResponseData.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/model/MovieResponseData.kt	(date 1609066691575)
+@@ -1,5 +1,14 @@
+ package com.example.movie.model
+ 
++import java.io.Serializable
++
+ data class MovieResponseData(
+     val movies: List<MovieData> = listOf()
+-)
+\ No newline at end of file
++){
++    data class MovieData(
++        val id: Long = 0,
++        val title: String = "",
++        val backdrop_path: String = "",
++        val overview: String = ""
++    ) : Serializable
++}
+\ No newline at end of file
+Index: presentation/src/main/java/com/example/movie/ui/home/MovieAdapter.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.movie.ui.home\r\n\r\nimport android.content.Context\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.ViewGroup\r\nimport androidx.recyclerview.widget.RecyclerView\r\nimport com.bumptech.glide.Glide\r\nimport com.example.common.DataConstants\r\nimport com.example.movie.databinding.ItemMovieBinding\r\nimport com.example.movie.model.MovieData\r\n\r\nclass MovieAdapter(\r\n    private val context: Context,\r\n    private val onClick: (MovieData) -> Unit\r\n) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(\r\n) {\r\n    private var movieList: List<MovieData> = listOf()\r\n\r\n    inner class MovieViewHolder(private val movieBinding: ItemMovieBinding) :\r\n        RecyclerView.ViewHolder(movieBinding.root) {\r\n        fun onBind(movie: MovieData) {\r\n            movieBinding.movie = movie\r\n            Glide.with(context).load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))\r\n                .into(movieBinding.image)\r\n            movieBinding.ctMovie.setOnClickListener {\r\n                onClick(movie)\r\n            }\r\n        }\r\n    }\r\n\r\n    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {\r\n        val inflater = LayoutInflater.from(parent.context)\r\n        val itemMovieBinding: ItemMovieBinding = ItemMovieBinding.inflate(inflater, parent, false)\r\n        return MovieViewHolder(itemMovieBinding)\r\n    }\r\n\r\n    override fun getItemCount(): Int = movieList.size\r\n\r\n    override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {\r\n        holder.onBind(movieList[position])\r\n    }\r\n\r\n    fun set(movie: List<MovieData>) {\r\n        this.movieList = movie\r\n        notifyDataSetChanged()\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/java/com/example/movie/ui/home/MovieAdapter.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/ui/home/MovieAdapter.kt	(date 1609067073423)
+@@ -1,25 +1,24 @@
+ package com.example.movie.ui.home
+ 
+ import android.content.Context
+-import android.util.Log
+ import android.view.LayoutInflater
+ import android.view.ViewGroup
+ import androidx.recyclerview.widget.RecyclerView
+ import com.bumptech.glide.Glide
+ import com.example.common.DataConstants
+ import com.example.movie.databinding.ItemMovieBinding
+-import com.example.movie.model.MovieData
++import com.example.movie.model.MovieResponseData
+ 
+ class MovieAdapter(
+     private val context: Context,
+-    private val onClick: (MovieData) -> Unit
++    private val onClick: (MovieResponseData.MovieData) -> Unit
+ ) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>(
+ ) {
+-    private var movieList: List<MovieData> = listOf()
++    private var movieList: List<MovieResponseData.MovieData> = listOf()
+ 
+     inner class MovieViewHolder(private val movieBinding: ItemMovieBinding) :
+         RecyclerView.ViewHolder(movieBinding.root) {
+-        fun onBind(movie: MovieData) {
++        fun onBind(movie: MovieResponseData.MovieData) {
+             movieBinding.movie = movie
+             Glide.with(context).load(DataConstants.URL_IMAGE.plus(movie.backdrop_path))
+                 .into(movieBinding.image)
+@@ -41,7 +40,7 @@
+         holder.onBind(movieList[position])
+     }
+ 
+-    fun set(movie: List<MovieData>) {
++    fun set(movie: List<MovieResponseData.MovieData>) {
+         this.movieList = movie
+         notifyDataSetChanged()
+     }
+Index: presentation/src/main/java/com/example/movie/ui/home/HomeFragment.kt
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package com.example.movie.ui.home\r\n\r\nimport android.os.Bundle\r\nimport android.util.Log\r\nimport android.view.LayoutInflater\r\nimport android.view.View\r\nimport android.view.ViewGroup\r\nimport android.widget.SearchView\r\nimport androidx.core.os.bundleOf\r\nimport androidx.fragment.app.Fragment\r\nimport androidx.lifecycle.Observer\r\nimport androidx.lifecycle.ViewModelProvider\r\nimport androidx.navigation.fragment.findNavController\r\nimport androidx.recyclerview.widget.LinearLayoutManager\r\nimport com.example.movie.R\r\nimport com.example.movie.databinding.FragmentHomeBinding\r\nimport com.example.movie.model.MovieData\r\nimport com.example.movie.ui.viewmodel.MovieViewModel\r\nimport com.example.movie.ui.viewmodel.MovieViewModelFactory\r\nimport io.reactivex.Observable\r\nimport kotlinx.android.synthetic.main.item_movie.*\r\nimport kotlinx.android.synthetic.main.shimmer_home_placeholder_layout.*\r\nimport java.util.*\r\n\r\nclass HomeFragment : Fragment() {\r\n    private lateinit var movieViewModel: MovieViewModel\r\n    private lateinit var binding: FragmentHomeBinding\r\n    private val list = mutableListOf<MovieData>()\r\n\r\n    override fun onCreate(savedInstanceState: Bundle?) {\r\n        super.onCreate(savedInstanceState)\r\n        val movieViewModelFactory = MovieViewModelFactory(requireContext())\r\n        movieViewModel = ViewModelProvider(requireActivity(), movieViewModelFactory)\r\n            .get(MovieViewModel::class.java)\r\n        retainInstance = true\r\n        Log.d(\"viewModelTest2\", movieViewModel.toString())\r\n    }\r\n\r\n    private val onClick: (MovieData) -> Unit = {\r\n        val bundle = bundleOf(\"movie\" to it)\r\n        findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)\r\n    }\r\n\r\n    private fun initControls() {\r\n        val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)\r\n        binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())\r\n        binding.rvMovie.setHasFixedSize(true)\r\n        binding.rvMovie.adapter = adapter\r\n        binding.lifecycleOwner = viewLifecycleOwner\r\n        movieViewModel.movie.observe(viewLifecycleOwner, Observer {\r\n            binding.ctShimmerHome.stopShimmerAnimation()\r\n            binding.ctShimmerHome.visibility=View.GONE\r\n            binding.rvMovie.visibility=View.VISIBLE\r\n            list.clear()\r\n            list.addAll(it.movies)\r\n            adapter.set(it.movies)\r\n        })\r\n    }\r\n\r\n    override fun onCreateView(\r\n        inflater: LayoutInflater, container: ViewGroup?,\r\n        savedInstanceState: Bundle?\r\n    ): View? {\r\n        binding = FragmentHomeBinding.inflate(inflater)\r\n        return binding.root\r\n    }\r\n\r\n    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {\r\n        super.onViewCreated(view, savedInstanceState)\r\n        initControls()\r\n        onClick\r\n        searchMovie()\r\n    }\r\n\r\n    private fun searchMovie() {\r\n        binding.searchView.apply {\r\n            setOnQueryTextListener(object : SearchView.OnQueryTextListener {\r\n                override fun onQueryTextSubmit(query: String?): Boolean {\r\n                    if (query.isNullOrEmpty()) {\r\n                        showSearchData(list)\r\n                    } else {\r\n                        showSearchData(getListDataSearch(query))\r\n                    }\r\n                    return true\r\n                }\r\n\r\n                override fun onQueryTextChange(query: String?): Boolean {\r\n                    if (query.isNullOrEmpty()) {\r\n                        showSearchData(list)\r\n                    } else {\r\n                        showSearchData(getListDataSearch(query))\r\n                    }\r\n                    return true\r\n                }\r\n            })\r\n            setOnClickListener {\r\n                isIconified = false\r\n            }\r\n        }\r\n    }\r\n\r\n    private fun showSearchData(listDataSearch: MutableList<MovieData>) {\r\n        val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)\r\n        binding.rvMovie.adapter = adapter\r\n        adapter.set(listDataSearch)\r\n    }\r\n\r\n    private fun getListDataSearch(query: String): MutableList<MovieData> {\r\n        val listFilter = list.filter {\r\n            it.title.contains(query, true)\r\n        }\r\n        Log.d(\"vvv\", listFilter.toString())\r\n        return listFilter.toMutableList()\r\n    }\r\n\r\n    override fun onResume() {\r\n        super.onResume()\r\n        binding.ctShimmerHome.startShimmerAnimation()\r\n    }\r\n\r\n    override fun onPause() {\r\n        binding.ctShimmerHome.stopShimmerAnimation()\r\n        super.onPause()\r\n    }\r\n}
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- presentation/src/main/java/com/example/movie/ui/home/HomeFragment.kt	(revision 49767509ca698d979fd17cca1cef86738e4457db)
++++ presentation/src/main/java/com/example/movie/ui/home/HomeFragment.kt	(date 1609066891519)
+@@ -14,18 +14,14 @@
+ import androidx.recyclerview.widget.LinearLayoutManager
+ import com.example.movie.R
+ import com.example.movie.databinding.FragmentHomeBinding
+-import com.example.movie.model.MovieData
++import com.example.movie.model.MovieResponseData
+ import com.example.movie.ui.viewmodel.MovieViewModel
+ import com.example.movie.ui.viewmodel.MovieViewModelFactory
+-import io.reactivex.Observable
+-import kotlinx.android.synthetic.main.item_movie.*
+-import kotlinx.android.synthetic.main.shimmer_home_placeholder_layout.*
+-import java.util.*
+ 
+ class HomeFragment : Fragment() {
+     private lateinit var movieViewModel: MovieViewModel
+     private lateinit var binding: FragmentHomeBinding
+-    private val list = mutableListOf<MovieData>()
++    private val list = mutableListOf<MovieResponseData.MovieData>()
+ 
+     override fun onCreate(savedInstanceState: Bundle?) {
+         super.onCreate(savedInstanceState)
+@@ -36,7 +32,7 @@
+         Log.d("viewModelTest2", movieViewModel.toString())
+     }
+ 
+-    private val onClick: (MovieData) -> Unit = {
++    private val onClick: (MovieResponseData.MovieData) -> Unit = {
+         val bundle = bundleOf("movie" to it)
+         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+     }
+@@ -99,13 +95,13 @@
+         }
+     }
+ 
+-    private fun showSearchData(listDataSearch: MutableList<MovieData>) {
++    private fun showSearchData(listDataSearch: MutableList<MovieResponseData.MovieData>) {
+         val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
+         binding.rvMovie.adapter = adapter
+         adapter.set(listDataSearch)
+     }
+ 
+-    private fun getListDataSearch(query: String): MutableList<MovieData> {
++    private fun getListDataSearch(query: String): MutableList<MovieResponseData.MovieData> {
+         val listFilter = list.filter {
+             it.title.contains(query, true)
+         }
+diff --git .idea/shelf/Uncommitted_changes_before_Checkout_at_12_27_2020_11_51_AM__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Checkout_at_12_27_2020_11_51_AM__Default_Changelist_.xml
+diff --git .idea/shelf/Uncommitted_changes_before_Checkout_at_12_27_2020_11_19_AM__Default_Changelist_.xml .idea/shelf/Uncommitted_changes_before_Checkout_at_12_27_2020_11_19_AM__Default_Changelist_.xml
