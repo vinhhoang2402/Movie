@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
+    ///////khkjhkj
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -52,9 +53,6 @@ class HomeFragment : Fragment() {
         binding.rvMovie.adapter = adapter
         binding.lifecycleOwner = viewLifecycleOwner
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-//            binding.ctShimmerHome.stopShimmerAnimation()
-//            binding.ctShimmerHome.visibility=View.GONE
-//            binding.rvMovie.visibility=View.VISIBLE
             list.clear()
             list.addAll(it.movies)
             adapter.set(it.movies)
@@ -87,10 +85,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         movieViewModel.movieRating.observe(viewLifecycleOwner, Observer {
             Log.d("ratingggggggg",it.toString())
-//            binding.ctShimmerHome.stopShimmerAnimation()
-//            binding.ctShimmerHome.visibility=View.GONE
-//            binding.rvPopular.visibility=View.VISIBLE
-            list.clear()
             list.addAll(it.movies)
             adapterRating.set(it.movies)
         })
