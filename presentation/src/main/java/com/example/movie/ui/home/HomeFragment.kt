@@ -28,7 +28,10 @@ class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
+    var kkkđ =9
+    val kkkk=0
     val kkkkkkk =9
+    val utyyyyytu=888
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
