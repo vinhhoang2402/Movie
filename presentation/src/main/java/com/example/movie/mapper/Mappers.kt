@@ -1,13 +1,20 @@
 package com.example.movie.mapper
 
 import android.util.Log
+import com.example.data.GenressData
 import com.example.data.MovieVideoData
 import com.example.data.MovieVideoDataReponse
 import com.example.domain.entity.*
+import com.example.mapper.toGenresEntity
 import com.example.movie.model.*
 import java.text.SimpleDateFormat
 import java.util.*
 
+fun GenressEntity.Genres.toGenresPresent()= Genress.Genres(this.id,this.name)
+fun GenressEntity.toGenresPresent() =
+    Genress(this.genres.map {
+        it.toGenresPresent()
+    })
 
 fun MovieEntity.toMovieData()= MovieData(this.id,this.title,this.backdrop_path,this.overview,this.vote_average)
 

@@ -4,6 +4,7 @@ import android.util.Log
 import com.example.connection.ConnectionManager
 import com.example.datasource.LocalMovieDataResource
 import com.example.datasource.RemoteMovieDataResource
+import com.example.domain.entity.GenressEntity
 import com.example.domain.entity.MovieDetailResponseEntity
 import com.example.domain.entity.MovieResponseEntity
 import com.example.domain.entity.MovieVideoEntityReponse
@@ -18,12 +19,18 @@ class MovieRepositoryImp(
     private fun remoteDataResource() = remoteMovieDataResource.getMovie().doOnSuccess {
         saveMovieLocal(it)
     }
+
+    private fun remoteGenres()=remoteMovieDataResource.getGenres()
     private fun remoteDataRatingResource() = remoteMovieDataResource.getMovieRating()
 
     private fun remoteVideoDataSource(id:Int) = remoteMovieDataResource.getMovieVideo(id)
 
     private fun saveMovieLocal(movieResponseEntity: MovieResponseEntity) = localMovieDataResource
         .saveMovieLocalData(movieResponseEntity)
+
+    override fun getGenres(): Single<GenressEntity> {
+        return remoteGenres()
+    }
 
     override fun getMovie(): Single<MovieResponseEntity> {
         if (this.connectionManager.isConnected) {

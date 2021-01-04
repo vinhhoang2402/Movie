@@ -5,18 +5,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.usecase.*
 import com.example.movie.common.BaseViewModel
-import com.example.movie.mapper.toMovieDetailResponseData
-import com.example.movie.mapper.toMovieResponseData
-import com.example.movie.mapper.toMovieVideo
-import com.example.movie.mapper.toMovieVideoPresentation
-import com.example.movie.model.MovieDetailResponseData
-import com.example.movie.model.MovieResponseData
-import com.example.movie.model.MovieVideo
-import com.example.movie.model.MovieVideoResponse
+import com.example.movie.mapper.*
+import com.example.movie.model.*
 import java.util.concurrent.TimeUnit
 
 class MovieViewModel(
     private val connectionStatusUseCase: GetConnectionStatusUseCase,
+    private val genresUseCase: GetMovieGenresUseCase,
     private val movieUseCase: GetMovieUseCase,
     private val movieRatingUseCase: GetMovieRatingUseCase,
     private val movieDetailUseCase: GetMovieDetailUseCase,
@@ -24,6 +19,9 @@ class MovieViewModel(
 ) : BaseViewModel() {
     private val movieResponse = MutableLiveData<MovieResponseData>()
     val movie: LiveData<MovieResponseData> = movieResponse
+
+    private val genresResponse = MutableLiveData<Genress>()
+    val genres: LiveData<Genress> = genresResponse
 
     private val movieRatingResponse = MutableLiveData<MovieResponseData>()
     val movieRating: LiveData<MovieResponseData> = movieRatingResponse
@@ -46,6 +44,25 @@ class MovieViewModel(
             }, {
                 showMessage(it.toString())
             })
+        )
+    }
+
+    fun getGenres() {
+        composite.add(
+            genresUseCase()
+                .doOnSubscribe {
+                    showLoading(true)
+                }
+                .doFinally {
+                    showLoading(false)
+                }
+                .subscribe({
+                    genresResponse.postValue(it.toGenresPresent())
+                    Log.d("vvvvvvvv",it.genres[0].name.toString())
+                }, {
+                    Log.d("getMovie", it.toString())
+                    showMessage(it.toString())
+                })
         )
     }
 

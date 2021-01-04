@@ -36,8 +36,12 @@ class MainActivity : AppCompatActivity() {
         val movieViewModelFactory = MovieViewModelFactory(this)
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
+        movieViewModel.getGenres()
         movieViewModel.getMovie()
         movieViewModel.getMovieRating()
+        movieViewModel.genres.observe(this, Observer {
+            Log.d("genres home",it.genres.toString())
+        })
         movieViewModel.video.observe(this, Observer {
             Log.d("video", "bbbbb"+it.toString())
         })

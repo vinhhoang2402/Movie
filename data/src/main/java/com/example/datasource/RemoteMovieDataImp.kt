@@ -3,10 +3,7 @@ package com.example.datasource
 import android.util.Log
 import com.example.api.MovieAPI
 import com.example.common.DataConstants
-import com.example.domain.entity.MovieDetailResponseEntity
-import com.example.domain.entity.MovieResponseEntity
-import com.example.domain.entity.MovieVideoEntity
-import com.example.domain.entity.MovieVideoEntityReponse
+import com.example.domain.entity.*
 import com.example.mapper.*
 import io.reactivex.Single
 
@@ -16,6 +13,15 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
             .map {
                 Log.d("aaa",it.toString())
                 it.toMovieResponseEntity()
+            }
+    }
+
+    override fun getGenres(): Single<GenressEntity> {
+        Log.d("genres","hhhhhhhhhh")
+        return movieAPI.getGenres(DataConstants.API_KEY, DataConstants.LANGUAGE)
+            .map {
+                Log.d("genres",it.toString())
+                it.toGenresEntity()
             }
     }
 
