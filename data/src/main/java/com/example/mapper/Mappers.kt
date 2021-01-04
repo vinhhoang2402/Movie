@@ -6,6 +6,8 @@ import com.example.domain.entity.*
 
 //remote
 fun MovieData.toMovieEntity() =
+
+
     MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview,this.vote_average)
 
 fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
