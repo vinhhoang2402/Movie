@@ -1,12 +1,10 @@
 package com.example.domain.repository
 
-import com.example.domain.entity.MovieDetailResponseEntity
-import com.example.domain.entity.MovieResponseEntity
-import com.example.domain.entity.MovieVideoEntity
-import com.example.domain.entity.MovieVideoEntityReponse
+import com.example.domain.entity.*
 import io.reactivex.Single
 
 interface MovieRepository {
+    fun getGenres(): Single<GenressEntity>
     fun getMovie(): Single<MovieResponseEntity>
     fun getMovieRating(): Single<MovieResponseEntity>
     fun getMovieDetail(id: Int): Single<MovieDetailResponseEntity>

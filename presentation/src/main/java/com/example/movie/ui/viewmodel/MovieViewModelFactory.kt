@@ -11,6 +11,7 @@ class MovieViewModelFactory(private val context: Context) : ViewModelProvider.Ne
         if (modelClass.isAssignableFrom(MovieViewModel::class.java)) {
             return MovieViewModel(
                 Injector.getMovieConnectUseCase(context),
+                Injector.getGenresUseCase(context),
                 Injector.getMovieUseCase(context),
                 Injector.getMovieRatingUseCase(context),
                 Injector.getMovieDetailUseCase(context),

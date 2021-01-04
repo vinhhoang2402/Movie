@@ -19,6 +19,15 @@ import io.reactivex.schedulers.Schedulers
 object Injector {
 
     @Synchronized
+    fun getGenresUseCase(context: Context): GetMovieGenresUseCase {
+        return GetMovieGenresUseCase(
+            getMovieRepository(context),
+            AndroidSchedulers.mainThread(),
+            Schedulers.io()
+        )
+    }
+
+    @Synchronized
     fun getMovieUseCase(context: Context): GetMovieUseCase {
         return GetMovieUseCase(
             getMovieRepository(context),

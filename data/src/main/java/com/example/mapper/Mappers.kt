@@ -9,6 +9,12 @@ fun MovieData.toMovieEntity() =
 
 
     MovieEntity(this.id.toLong(), this.title, this.backdrop_path, this.overview,this.vote_average)
+//remote
+fun GenressData.Genres.toGenresEntity()=GenressEntity.Genres(this.id,this.name)
+fun GenressData.toGenresEntity() =
+    GenressEntity(this.genres.map {
+        it.toGenresEntity()
+    })
 
 fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
     it.toMovieEntity()
