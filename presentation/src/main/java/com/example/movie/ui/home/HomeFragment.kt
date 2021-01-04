@@ -30,6 +30,7 @@ class HomeFragment : Fragment() {
     private val list = mutableListOf<MovieData>()
     var kkkđ =9
     val kkkk=0
+    val kkkkkkk =9
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
