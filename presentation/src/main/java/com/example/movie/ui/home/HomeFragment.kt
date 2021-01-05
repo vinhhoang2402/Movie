@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.movie.R
 import com.example.movie.databinding.FragmentHomeBinding
+import com.example.movie.model.Genress
 import com.example.movie.model.MovieData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
@@ -28,10 +30,6 @@ class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
-    var kkkđ =9
-    val kkkk=0
-    val kkkkkkk =9
-    val utyyyyytu=888
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +44,10 @@ class HomeFragment : Fragment() {
         val bundle = bundleOf("movie" to it)
         Log.d("bbbbbbb",it.vote_average.toString())
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
+    }
+
+    private val genresOnClick: (Genress.Genres) -> Unit = {
+        Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
     }
 
     private fun initControls() {
@@ -75,8 +77,23 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initControlsRating()
         initControls()
+        initGenres()
         onClick
+        genresOnClick
         searchMovie()
+    }
+
+    private fun initGenres() {
+        //genres
+        val genresAdapter: GenresAdapter = GenresAdapter(requireContext(), genresOnClick)
+        binding.rvGenres.layoutManager = LinearLayoutManager(context,LinearLayoutManager.HORIZONTAL,false)
+        binding.rvGenres.setHasFixedSize(true)
+        binding.rvGenres.adapter = genresAdapter
+        binding.lifecycleOwner = viewLifecycleOwner
+        movieViewModel.genres.observe(viewLifecycleOwner, Observer {
+            Log.d("genres",it.toString())
+            genresAdapter.set(it.genres)
+        })
     }
 
     private fun initControlsRating() {
