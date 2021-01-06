@@ -6,7 +6,7 @@ import com.example.domain.entity.*
 import io.reactivex.Single
 
 interface RemoteMovieDataResource {
-    fun getMovie(): Single<MovieResponseEntity>
+    fun getMovie(page: Int): Single<MovieResponseEntity>
     fun getGenres(): Single<GenressEntity>
     fun getMovieRating(): Single<MovieResponseEntity>
     fun getMovieDetail(idMovie: Int): Single<MovieDetailResponseEntity>

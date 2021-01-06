@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.movie.R
 import com.example.movie.databinding.FragmentHomeBinding
 import com.example.movie.model.Genress
@@ -22,6 +23,7 @@ import com.example.movie.model.MovieData
 import com.example.movie.ui.viewmodel.MovieViewModel
 import com.example.movie.ui.viewmodel.MovieViewModelFactory
 import io.reactivex.Observable
+import kotlinx.android.synthetic.main.fragment_home.*
 import kotlinx.android.synthetic.main.item_movie.*
 import kotlinx.android.synthetic.main.shimmer_home_placeholder_layout.*
 import java.util.*
@@ -30,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
+    private var currentPage=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,18 +54,42 @@ class HomeFragment : Fragment() {
     }
 
     private fun initControls() {
+        movieViewModel.getMovie(currentPage)
         val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
 
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
-        binding.lifecycleOwner = viewLifecycleOwner
-        movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-            list.clear()
-            list.addAll(it.movies)
-            adapter.set(it.movies)
+        binding.rvMovie.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if(!binding.rvMovie.canScrollVertically(1)){
+                    if (currentPage<=20){
+                        currentPage+=1
+                        movieViewModel.getMovie(currentPage)
+                        observeMovie(adapter)
+                        Log.d("ccccccc","page"+currentPage)
+                    }
+                }
+            }
         })
+        binding.lifecycleOwner = viewLifecycleOwner
+        observeMovie(adapter)
 
+    }
+
+    private fun observeMovie(adapter : MovieAdapter){
+        movieViewModel.movie.observe(viewLifecycleOwner, Observer {
+            if (it.movies.isNotEmpty()){
+                val oldCount=it.movies.size
+                list.addAll(it.movies)
+                Log.d("ccccccc",list.toString())
+                adapter.notifyItemRangeInserted(oldCount,it.movies.size)
+            }
+            //list.clear()
+//            list.addAll(it.movies)
+//            adapter.set(it.movies)
+        })
     }
 
     override fun onCreateView(

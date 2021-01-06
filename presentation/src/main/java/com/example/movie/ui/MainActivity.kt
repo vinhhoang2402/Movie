@@ -37,7 +37,6 @@ class MainActivity : AppCompatActivity() {
         movieViewModel = ViewModelProvider(this, movieViewModelFactory)
             .get(MovieViewModel::class.java)
         movieViewModel.getGenres()
-        movieViewModel.getMovie()
         movieViewModel.getMovieRating()
         movieViewModel.genres.observe(this, Observer {
             Log.d("genres home",it.genres.toString())
