@@ -33,6 +33,7 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
     private var currentPage=1
+    ///n,jbbbm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
