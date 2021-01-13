@@ -81,11 +81,16 @@ class HomeFragment : Fragment() {
 
     private fun observeMovie(adapter : MovieAdapter){
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-            if (it.movies.isNotEmpty()){
-                val oldCount=it.movies.size
+            if (list.isNullOrEmpty()){
+               adapter.set(it.movies)
+                Log.d("fffffff","ccccccccc")
+            }else{
+                Log.d("fffffff","fffffffff")
                 list.addAll(it.movies)
-                Log.d("ccccccc",list.toString())
+                val oldCount=it.movies.size
+                adapter.set(list)
                 adapter.notifyItemRangeInserted(oldCount,it.movies.size)
+
             }
             //list.clear()
 //            list.addAll(it.movies)
@@ -133,7 +138,6 @@ class HomeFragment : Fragment() {
         binding.lifecycleOwner = viewLifecycleOwner
         movieViewModel.movieRating.observe(viewLifecycleOwner, Observer {
             Log.d("ratingggggggg",it.toString())
-            list.addAll(it.movies)
             adapterRating.set(it.movies)
         })
     }
