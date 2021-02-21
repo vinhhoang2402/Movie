@@ -33,10 +33,10 @@ class MovieRepositoryImp(
     }
 
     override fun getMovie(page: Int): Single<MovieResponseEntity> {
-        if (this.connectionManager.isConnected) {
-            return remoteDataResource(page)
+        return if (this.connectionManager.isConnected) {
+            remoteDataResource(page)
         } else {
-            return localMovieDataResource.getMovieLocalData()
+            localMovieDataResource.getMovieLocalData()
         }
     }
 

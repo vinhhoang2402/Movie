@@ -33,7 +33,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
     private var currentPage=1
-    ///n,jbbbm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,11 +55,12 @@ class HomeFragment : Fragment() {
 
     private fun initControls() {
         movieViewModel.getMovie(currentPage)
-        val adapter: MovieAdapter = MovieAdapter(requireContext(), onClick)
+        val adapter = MovieAdapter(requireContext(), onClick)
 
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
+        observeMovie(adapter)
         binding.rvMovie.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -75,26 +75,28 @@ class HomeFragment : Fragment() {
             }
         })
         binding.lifecycleOwner = viewLifecycleOwner
-        observeMovie(adapter)
+
+        //adapter.set(list)
 
     }
 
     private fun observeMovie(adapter : MovieAdapter){
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-            if (list.isNullOrEmpty()){
-               adapter.set(it.movies)
-                Log.d("fffffff","ccccccccc")
-            }else{
-                Log.d("fffffff","fffffffff")
+            if ( list.isNullOrEmpty()){
                 list.addAll(it.movies)
-                val oldCount=it.movies.size
                 adapter.set(list)
-                adapter.notifyItemRangeInserted(oldCount,it.movies.size)
+                Log.d("fffffff","ccccccccc")
+            }else {
+                Log.d("fffffff", "fffffffff")
+                val oldCount = it.movies.size
+                list.removeAll(it.movies)
+                Log.d("nnnnn", oldCount.toString())
+                list.addAll(it.movies)
+                adapter.set(list)
+                Log.d("nnnnn", list.size.toString())
+                adapter.notifyItemRangeInserted(oldCount, list.size)
 
             }
-            //list.clear()
-//            list.addAll(it.movies)
-//            adapter.set(it.movies)
         })
     }
 
