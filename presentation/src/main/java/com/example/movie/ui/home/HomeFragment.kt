@@ -91,6 +91,7 @@ class HomeFragment : Fragment() {
                 val oldCount = it.movies.size
                 list.removeAll(it.movies)
                 Log.d("nnnnn", oldCount.toString())
+                Log.d("nnnnn", oldCount.toString())
                 list.addAll(it.movies)
                 adapter.set(list)
                 Log.d("nnnnn", list.size.toString())
