@@ -1,5 +1,6 @@
 package com.example.domain.usecase
 
+import com.example.domain.common.SingleParamUseCase
 import com.example.domain.common.SingleUseCase
 import com.example.domain.entity.MovieResponseEntity
 import com.example.domain.repository.MovieRepository
@@ -12,10 +13,9 @@ class GetMovieUseCase(
     private val movieRepository: MovieRepository,
     uiThread: Scheduler,
     executorThread: Scheduler
-) : SingleUseCase<MovieResponseEntity>(uiThread, executorThread) {
-
-    override fun create(): Single<MovieResponseEntity> {
-        return movieRepository.getMovie().timeout(3, TimeUnit.SECONDS).retry { times, throwable ->
+) : SingleParamUseCase<MovieResponseEntity,Int>(uiThread, executorThread) {
+    override fun create(page: Int): Single<MovieResponseEntity> {
+        return movieRepository.getMovie(page).timeout(3, TimeUnit.SECONDS).retry { times, throwable ->
             times < 5 && throwable is TimeoutException
         }
     }

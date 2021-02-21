@@ -16,7 +16,7 @@ class MovieRepositoryImp(
     private val localMovieDataResource: LocalMovieDataResource,
     private val remoteMovieDataResource: RemoteMovieDataResource
 ) : MovieRepository {
-    private fun remoteDataResource() = remoteMovieDataResource.getMovie().doOnSuccess {
+    private fun remoteDataResource(page: Int) = remoteMovieDataResource.getMovie(page).doOnSuccess {
         saveMovieLocal(it)
     }
 
@@ -32,11 +32,11 @@ class MovieRepositoryImp(
         return remoteGenres()
     }
 
-    override fun getMovie(): Single<MovieResponseEntity> {
-        if (this.connectionManager.isConnected) {
-            return remoteDataResource()
+    override fun getMovie(page: Int): Single<MovieResponseEntity> {
+        return if (this.connectionManager.isConnected) {
+            remoteDataResource(page)
         } else {
-            return localMovieDataResource.getMovieLocalData()
+            localMovieDataResource.getMovieLocalData()
         }
     }
 

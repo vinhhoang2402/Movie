@@ -34,13 +34,13 @@ class MovieViewModel(
 
     private val connectionStatus = MutableLiveData<Boolean>()
     val status: LiveData<Boolean> = connectionStatus
-
+    private var page: Int=1
     init {
         composite.add(
             connectionStatusUseCase().subscribe({
                 Log.d("connectionnnnnnnnnnn", it.toString())
                 connectionStatus.postValue(it)
-                if (it) getMovie()
+                if (it) getMovie(page)
             }, {
                 showMessage(it.toString())
             })
@@ -66,9 +66,11 @@ class MovieViewModel(
         )
     }
 
-    fun getMovie() {
+    fun getMovie(page: Int) {
+        this.page=page
+        Log.d("ccccccccc","page $page")
         composite.add(
-            movieUseCase()
+            movieUseCase(page)
                 .doOnSubscribe {
                     showLoading(true)
                 }

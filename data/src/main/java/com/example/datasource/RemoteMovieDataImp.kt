@@ -8,8 +8,8 @@ import com.example.mapper.*
 import io.reactivex.Single
 
 class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResource {
-    override fun getMovie(): Single<MovieResponseEntity> {
-        return movieAPI.getMovie(DataConstants.API_KEY, DataConstants.LANGUAGE, DataConstants.PAGE)
+    override fun getMovie(page: Int): Single<MovieResponseEntity> {
+        return movieAPI.getMovie(DataConstants.API_KEY, DataConstants.LANGUAGE, page)
             .map {
                 Log.d("aaa",it.toString())
                 it.toMovieResponseEntity()
@@ -39,6 +39,20 @@ class RemoteMovieDataImp(private val movieAPI: MovieAPI) : RemoteMovieDataResour
             DataConstants.API_KEY,
             DataConstants.LANGUAGE
         ).map {
+//                MovieDetailResponseEntity(
+//                    id=it.id,
+//                    results = it.results.map {
+//                        MovieDetailEntity(
+//                            id = it.id,
+//                            author = it.author,
+//                            author_details = null,
+//                            content = it.content,
+//                            created_at = it.created_at,
+//                            updated_at = it.updated_at,
+//                            url = it.url
+//                        )
+//                    }
+//                )
                 it.toMovieDetailResponseEntity()
             }
     }
