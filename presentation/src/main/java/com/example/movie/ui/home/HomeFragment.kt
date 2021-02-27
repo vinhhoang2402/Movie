@@ -64,6 +64,7 @@ class HomeFragment : Fragment() {
                 list.addAll(it.movies)
             })
         }
+        // hoang van vinh
         val adapter = MovieAdapter(requireContext(), onClick)
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
