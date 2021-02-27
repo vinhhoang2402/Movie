@@ -52,6 +52,7 @@ class HomeFragment : Fragment() {
 
     private val genresOnClick: (Genress.Genres) -> Unit = {
         Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "snmfsdm,fn,s", Toast.LENGTH_SHORT).show()
         //ftyftyhfyjg
     }
 
