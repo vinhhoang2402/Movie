@@ -42,6 +42,7 @@ class HomeFragment : Fragment() {
             .get(MovieViewModel::class.java)
         retainInstance = true
         Log.d("viewModelTest2", movieViewModel.toString())
+        Toast.makeText(requireContext(), "fhsdkjfhsakfhsd", Toast.LENGTH_SHORT).show()
     }
 
     private val onClick: (MovieData) -> Unit = {
