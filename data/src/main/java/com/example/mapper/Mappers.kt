@@ -18,7 +18,7 @@ fun GenressData.toGenresEntity() =
 
 fun MovieResponseData.toMovieResponseEntity() = MovieResponseEntity(this.results.map {
     it.toMovieEntity()
-})
+},this.total_pages)
 
 //movieDetail
 fun MovieDetailData.AuthorDetails.toAuthorDetails() = MovieDetailEntity.AuthorDetails(

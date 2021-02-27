@@ -29,7 +29,7 @@ fun MovieVideoEntityReponse.toMovieVideoPresentation()= MovieVideoResponse(
 )
 fun MovieResponseEntity.toMovieResponseData()=MovieResponseData(this.results.map {
     it.toMovieData()
-})
+},this.total_pages)
 fun MovieDetailEntity.AuthorDetails.toAuthorDetails() = MovieDetail.AuthorDetails(
     this.name,
     this.username, this.avatar_path, this.rating

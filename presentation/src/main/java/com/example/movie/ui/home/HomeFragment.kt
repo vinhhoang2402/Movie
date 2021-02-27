@@ -32,6 +32,7 @@ class HomeFragment : Fragment() {
     private lateinit var movieViewModel: MovieViewModel
     private lateinit var binding: FragmentHomeBinding
     private val list = mutableListOf<MovieData>()
+    private var total_pages =0
     private var currentPage=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,50 +55,47 @@ class HomeFragment : Fragment() {
     }
 
     private fun initControls() {
-        movieViewModel.getMovie(currentPage)
+        //fhjksgjfusagjkfhs
+        if (currentPage==1){
+            movieViewModel.movie.observe(viewLifecycleOwner, Observer {
+                Log.d("hhhhhh","bbbbbbbbb")
+                list.addAll(it.movies)
+            })
+        }
         val adapter = MovieAdapter(requireContext(), onClick)
-
         binding.rvMovie.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMovie.setHasFixedSize(true)
         binding.rvMovie.adapter = adapter
-        observeMovie(adapter)
+        adapter.set(list)
         binding.rvMovie.addOnScrollListener(object : RecyclerView.OnScrollListener(){
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if(!binding.rvMovie.canScrollVertically(1)){
-                    if (currentPage<=20){
-                        currentPage+=1
-                        movieViewModel.getMovie(currentPage)
                         observeMovie(adapter)
-                        Log.d("ccccccc","page"+currentPage)
-                    }
                 }
             }
         })
         binding.lifecycleOwner = viewLifecycleOwner
-
-        //adapter.set(list)
-
     }
 
     private fun observeMovie(adapter : MovieAdapter){
+        Log.d("hhhhhhhhh","pppppppppppppp")
         movieViewModel.movie.observe(viewLifecycleOwner, Observer {
-            if ( list.isNullOrEmpty()){
-                list.addAll(it.movies)
-                adapter.set(list)
-                Log.d("fffffff","ccccccccc")
-            }else {
-                Log.d("fffffff", "fffffffff")
-                val oldCount = it.movies.size
-                list.removeAll(it.movies)
-                Log.d("nnnnn", oldCount.toString())
-                Log.d("nnnnn", oldCount.toString())
-                list.addAll(it.movies)
-                adapter.set(list)
-                Log.d("nnnnn", list.size.toString())
-                adapter.notifyItemRangeInserted(oldCount, list.size)
-
+            if (total_pages==0){
+                total_pages=it.total_pages
             }
+            if (currentPage<=total_pages){
+                currentPage++
+                movieViewModel.getMovie(currentPage)
+                Log.d("hhhhhhhhh","currentPage"  + currentPage.toString())
+            }
+            val oldCount = it.movies.size
+            if (list.isNotEmpty()){
+                list.removeAll(it.movies)
+                list.addAll(it.movies)
+            }
+            adapter.set(list)
+            adapter.notifyItemRangeInserted(oldCount, list.size)
         })
     }
 
