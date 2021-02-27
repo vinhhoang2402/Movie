@@ -52,11 +52,11 @@ class HomeFragment : Fragment() {
 
     private val genresOnClick: (Genress.Genres) -> Unit = {
         Toast.makeText(requireContext(), it.name, Toast.LENGTH_SHORT).show()
+        //ftyftyhfyjg
     }
 
     private fun initControls() {
-        //fhjyhjfvhjgbjkhgbj
-        //fhjksgjfusagjkfhs
+
         if (currentPage==1){
             movieViewModel.movie.observe(viewLifecycleOwner, Observer {
                 Log.d("hhhhhh","bbbbbbbbb")
