@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.GridLayout
 import android.widget.SearchView
+import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
@@ -40,6 +41,7 @@ class HomeFragment : Fragment() {
             .get(MovieViewModel::class.java)
         retainInstance = true
         Log.d("viewModelTest2", movieViewModel.toString())
+        Toast.makeText(requireContext(), "fhsdkjfhsakfhsd", Toast.LENGTH_SHORT).show()
     }
 
     private val onClick: (MovieData) -> Unit = {
