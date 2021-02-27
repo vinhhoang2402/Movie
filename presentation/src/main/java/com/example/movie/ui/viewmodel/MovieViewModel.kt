@@ -20,6 +20,7 @@ class MovieViewModel(
     private val movieResponse = MutableLiveData<MovieResponseData>()
     val movie: LiveData<MovieResponseData> = movieResponse
 
+
     private val genresResponse = MutableLiveData<Genress>()
     val genres: LiveData<Genress> = genresResponse
 
@@ -79,7 +80,6 @@ class MovieViewModel(
                 }
                 .subscribe({
                     movieResponse.postValue(it.toMovieResponseData())
-                    Log.d("vvvvvvvv",it.results[0].vote_average.toString())
                 }, {
                     Log.d("getMovie", it.toString())
                     showMessage(it.toString())
